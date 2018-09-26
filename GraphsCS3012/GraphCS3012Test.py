@@ -35,7 +35,9 @@ class Test_Find_Common(unittest.TestCase):
         self.assertEquals(Tree.find_common(self.tree, 9, 15), None)
       
     def test_TreeFind_common_one_node_not_on_tree(self):
-        self.assertEquals(Tree.find_common(self.tree, 15, 5), None)
+        #if only one of the nodes is in the tree, then the common ancestor is the root, since we could assume the other 
+        #could be added at some point. 
+        self.assertEquals(Tree.find_common(self.tree, 15, 5), 3)
 
 
 
