@@ -1,60 +1,131 @@
-# Python program to find LCA of n1 and n2 using one
-# traversal of Binary tree
-
-# A binary tree node
-
-
-class Node:
-
-    # Constructor to create a new tree node
-    def __init__(self, key):
-        self.key = key
+class Node(object):
+    def __init__(self, val):
+        self.val = val
         self.left = None
         self.right = None
 
-# This function returns pointer to LCA of two given
-# values n1 and n2
-# This function assumes that n1 and n2 are present in
-# Binary Tree
+    def __lt__(self, val):
+        return self.val < val
+
+    def __gt__(self, val):
+        return self.val > val
+
+    def __eq__(self, val):
+        return self.val == val
+
+    def __str__(self):
+        return "[Node val: %d]" % self.val
 
 
-def findLCA(root, n1, n2):
+class Tree(object):
+    def __init__(self):
+        self.root = None
 
-    # Base Case
-    if root is None:
+    def put(self, val):
+        self.root = self._put(self.root, val)
+
+    def _put(self, node, val):
+        if node is None:
+            node = Node(val)
+
+        if val < node:
+            node.left = self._put(node.left, val)
+        elif val > node:
+            node.right = self._put(node.right, val)
+        else:
+            node.val = val
+
+        return node
+
+    def get(self, val):
+        return self._get(self.root, val)
+
+    def _get(self, node, val):
+        while not node is None:
+            if val < node:
+                node = node.left
+            elif val > node:
+                node = node.right
+            else:
+                return node.val
+
         return None
 
-    # If either n1 or n2 matches with root's key, report
-    #  the presence by returning root (Note that if a key is
-    #  ancestor of other, then the ancestor key becomes LCA
-    if root.key == n1 or root.key == n2:
-        return root
+    # This method returns `None` if no common is found
+    def find_common(self, a, b):
+        return self._find_common(self.root, a, b)
 
-    # Look for keys in left and right subtrees
-    left_lca = findLCA(root.left, n1, n2)
-    right_lca = findLCA(root.right, n1, n2)
+    def _find_common(self, node, a, b):
+        # Traverse right until a diverge occurs
+        if a > node and b > node:
+            if node.right is None:
+                return None
 
-    # If both of the above calls return Non-NULL, then one key
-    # is present in once subtree and other is present in other,
-    # So this node is the LCA
-    if left_lca and right_lca:
-        return root
+            # if right node is `a` or `b` then we found common
+            if node.right == a or node.right == b:
+                return node.val
 
-    # Otherwise check if left subtree or right subtree is LCA
-    return left_lca if left_lca is not None else right_lca
+            return self._find_common(node.right, a, b)
+
+        # Traverse left until a diverge occurs
+        elif a < node and b < node:
+            if node.left is None:
+                return None
+
+            # if left node is `a` or `b` then we found common
+            if node.left == a or node.left == b:
+                return node.val
+
+            return self._find_common(node.left, a, b)
+
+        # root does not have any common ancestor
+        # This test is later because we dont want the
+        # recursion to hit it every time
+        elif a == self.root or b == self.root:
+            return None
+
+        else:
+            # A diverge of the tree traversal occurs here
+            # So the current node is a potential common ancestor
+            # Verify that a and b are legitimate nodes
+            if self._node_exists(node, a):
+                # `a` exists ensure `b` exists
+                if self._node_exists(node, b):
+                    # Common ancestor is validated
+                    return node.val
+                else:
+                    return None
+            else:
+                return None
+
+    def node_exists(self, val):
+        return self._node_exists(self.root, val)
+
+    def _node_exists(self, node, val):
+        return not self._get(node, val) is None
 
 
-# Driver program to test above function
+if __name__ == "__main__":
+    from sys import stdout
+    vals = [30, 8, 52, 3, 20, 10, 29, 62]
+    tree = Tree()
+    [tree.put(val) for val in vals]
+    pairs = [
+        (3, 20),
+        (3, 29),
+        (10, 29),
+        (20, 52),
+        (3, 62),
+        (4, 29),
+        (3, 1),
+        (8, 3),
+        (8, 20)
+    ]
+    for (a, b) in pairs:
+        stdout.write("Common for %d & %d: " % (a, b))
+        print (tree.find_common(a, b))
 
-# Let us create a binary tree given in the above example
-root = Node(1)
-root.left = Node(2)
-root.right = Node(3)
-root.left.left = Node(4)
-root.left.right = Node(5)
-root.right.left = Node(6)
-root.right.right = Node(7)
-print("LCA(4,5) = ", findLCA(root, 4, 5).key)
-print("LCA(4,6) = ", findLCA(root, 4, 6).key)
-print("LCA(3,4) = ", findLCA(root, 3, 4).key)
-print("LCA(2,4) = ", findLCA(root, 2, 4).key)
+"""         3
+1               5
+    2       4       7   
+                6       8 """

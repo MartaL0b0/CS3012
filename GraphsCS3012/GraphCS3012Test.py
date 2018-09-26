@@ -1,18 +1,42 @@
 import unittest 
-import GraphCS3012
+from GraphCS3012 import Node
+from GraphCS3012 import Tree
+#from GraphCS3012 import *
 
+class Test_Find_Common(unittest.TestCase):
 
-class Test_TestFindLCA(unittest.TestCase):
+    def setUp(self):
+        vals = [3, 1, 2, 5, 4, 7, 6, 8]
+        self.tree = Tree()
+        [self.tree.put(val) for val in vals]
 
-    def test_findLCA(self):
-        root = GraphCS3012.Node(1)
-        root.left = GraphCS3012.Node(2)
-        root.right = GraphCS3012.Node(3)
-        root.left.left = GraphCS3012.Node(4)
-        root.left.right = GraphCS3012.Node(5)
-        root.right.left = GraphCS3012.Node(6)
-        root.right.right = GraphCS3012.Node(7)
-        self.assertEquals(GraphCS3012.findLCA(root, 5,6), 1)
+    def test_Treefind_common_root(self):
+        #if one of the nodes is root then I consider it to not be a common ancestor.
+        self.assertEquals(Tree.find_common(self.tree, 3, 1), None)
+        
+    def test_Treefind_common_different_subtrees(self):
+        #different subtrees, it should be the closest 'root'
+        self.assertEquals(Tree.find_common(self.tree, 8, 4), 5)
+    
+    def test_Treefind_common_same_subtree(self):
+        #same subtree, it should be parent
+        self.assertEquals(Tree.find_common(self.tree, 6, 8), 7)
+
+    def test_Treefind_common_different_levels(self):
+        #different subtrees and different levels, it should be the root
+        self.assertEquals(Tree.find_common(self.tree, 7, 1), 3)
+    
+    def test_Treefind_common_parent_and_child(self):
+        #parent and child, common ancestor the 'grandparent'
+        self.assertEquals(Tree.find_common(self.tree, 7, 8), 5)
+
+    def test_TreeFind_common_nodes_not_on_tree(self):
+        #test with nodes that are not in the tree, it should be None
+        self.assertEquals(Tree.find_common(self.tree, 9, 15), None)
+      
+    def test_TreeFind_common_one_node_not_on_tree(self):
+        self.assertEquals(Tree.find_common(self.tree, 15, 5), None)
+
 
 
 if __name__ == '__main__':
