@@ -15,7 +15,9 @@ class Node(object):
 
     def __str__(self):
         return "[Node val: %d]" % self.val
-
+    
+    def printNode(self):
+        print(self.val)
 
 class Tree(object):
     def __init__(self):
@@ -104,6 +106,27 @@ class Tree(object):
     def _node_exists(self, node, val):
         return not self._get(node, val) is None
 
+    def printTree(self):
+        return self._printTree(self.root)
+
+    def _printTree(self, node):
+        if node.left:
+            self._printTree(node.left)
+        print( node.val),
+        if node.right:
+            self._printTree(node.right)
+
+    def traverse(self, root):
+        current_level = [root]
+        while current_level:
+            print(' '.join(str(node) for node in current_level))
+            next_level = list()
+            for n in current_level:
+                if n.left:
+                    next_level.append(n.left)
+                if n.right:
+                    next_level.append(n.right)
+                current_level = next_level
 
 if __name__ == "__main__":
     from sys import stdout
@@ -121,11 +144,10 @@ if __name__ == "__main__":
         (8, 3),
         (8, 20)
     ]
+    
+    tree.traverse(tree.root)
+    
     for (a, b) in pairs:
         stdout.write("Common for %d & %d: " % (a, b))
         print (tree.find_common(a, b))
 
-"""         3
-1               5
-    2       4       7   
-                6       8 """
