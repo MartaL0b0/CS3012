@@ -14,10 +14,7 @@ class Node(object):
         return self.val == val
 
     def __str__(self):
-        return "[Node val: %d]" % self.val
-    
-    def printNode(self):
-        print(self.val)
+        return "[Node val: %d]" % self.val  
 
 class Tree(object):
     def __init__(self):
@@ -39,8 +36,8 @@ class Tree(object):
 
         return node
 
-    def get(self, val):
-        return self._get(self.root, val)
+    #def get(self, val):
+     #   return self._get(self.root, val)  # coverage
 
     def _get(self, node, val):
         while not node is None:
@@ -54,37 +51,37 @@ class Tree(object):
         return None
 
     # This method returns `None` if no common is found
-    def find_common(self, a, b):
-        return self._find_common(self.root, a, b)
+    def find_common_ancestor(self, a, b):
+        return self._find_common_ancestor(self.root, a, b)
 
-    def _find_common(self, node, a, b):
+    def _find_common_ancestor(self, node, a, b):
         # Traverse right until a diverge occurs
         if a > node and b > node:
             if node.right is None:
-                return None
+                return None  # coverage
 
             # if right node is `a` or `b` then we found common
             if node.right == a or node.right == b:
                 return node.val
 
-            return self._find_common(node.right, a, b)
+            return self._find_common_ancestor(node.right, a, b)
 
         # Traverse left until a diverge occurs
         elif a < node and b < node:
             if node.left is None:
-                return None
+                return None  # coverage
 
             # if left node is `a` or `b` then we found common
             if node.left == a or node.left == b:
                 return node.val
 
-            return self._find_common(node.left, a, b)
+            return self._find_common_ancestor(node.left, a, b)
 
         # root does not have any common ancestor
         # This test is later because we dont want the
         # recursion to hit it every time
         elif a == self.root or b == self.root:
-            return None
+            return None  # coverage says no but it's covered by 
 
         else:
             # A diverge of the tree traversal occurs here
@@ -96,28 +93,20 @@ class Tree(object):
                     # Common ancestor is validated
                     return node.val
                 else:
-                    return None
+                    return None  # coverage
             else:
                 return None
 
-    def node_exists(self, val):
-        return self._node_exists(self.root, val)
+    #def node_exists(self, val):
+    #    return self._node_exists(self.root, val)  # coverage
 
     def _node_exists(self, node, val):
         return not self._get(node, val) is None
 
-    def printTree(self):
-        return self._printTree(self.root)
-
-    def _printTree(self, node):
-        if node.left:
-            self._printTree(node.left)
-        print( node.val),
-        if node.right:
-            self._printTree(node.right)
-
+   
     def traverse(self, root):
         current_level = [root]
+        count = 0
         while current_level:
             print(' '.join(str(node) for node in current_level))
             next_level = list()
@@ -127,6 +116,8 @@ class Tree(object):
                 if n.right:
                     next_level.append(n.right)
                 current_level = next_level
+                count += 1
+        return count
 
 if __name__ == "__main__":
     from sys import stdout
@@ -146,8 +137,9 @@ if __name__ == "__main__":
     ]
     
     tree.traverse(tree.root)
+    print()
     
     for (a, b) in pairs:
         stdout.write("Common for %d & %d: " % (a, b))
-        print (tree.find_common(a, b))
+        print(tree.find_common_ancestor(a, b))
 
