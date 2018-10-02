@@ -1,4 +1,5 @@
 class Node(object):
+    #Change of requirements: need to change this to represent a DAG
     def __init__(self, val):
         self.val = val
         self.left = None
