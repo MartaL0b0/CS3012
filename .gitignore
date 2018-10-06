@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 .vscode/settings.json
+
+# Coverage 
+htmlcov/
+commands.txt
