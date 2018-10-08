@@ -30,7 +30,7 @@ Still using Python, the new approach will help to perfectionate the development 
 5. Modify the current implementation and include the new tests.
 6. Run it all and test. Repeat from 2 until proper behaviour. 
 
-###New requirements:
+### New requirements 
 A Directed Acyclic Graph is a data structure whose nodes are linked with a fixed direction, but there are no cycles within them (it is not possible to go from one node back to it through any fixed path). It is similar to a tree, but the root does not need to be defined, and the concept of leaves is more diffuse. 
 
 In this new scenario, the Lowest Common Ancestor is the node that is 'end of the path' from both of those nodes, as 'soon' as possible (in the picture below, the LCA for 8 and 6 would be 4; for 1 and 3 there's no LCA). Closest distance plays a particular role here. 
