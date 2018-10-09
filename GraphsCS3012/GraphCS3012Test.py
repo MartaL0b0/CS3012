@@ -1,45 +1,41 @@
 import unittest 
-from GraphCS3012 import Node
-from GraphCS3012 import Tree
+from GraphCS3012 import *
 
-class Test_Find_Common(unittest.TestCase):
-
+class TestDAGClasses(unittest.TestCase):
     def setUp(self):
-        vals = [3, 1, 2, 5, 4, 7, 6, 8]
-        self.tree = Tree()
-        [self.tree.put(val) for val in vals]
+        self.root_node = Composite()
+        self.leaf_a = Composite()
+        self.leaf_b = Node()
+        self.root_node.add(self.leaf_a, self.leaf_b)
 
-    def test_Treefind_common_root(self):
-        #if one of the nodes is root then I consider it to not be a common ancestor.
-        self.assertEqual(None, Tree.find_common_ancestor(self.tree, 3, 1))
-        
-    def test_Treefind_common_different_subtrees(self):
-        #different subtrees, it should be the closest 'root'
-        self.assertEqual(5, Tree.find_common_ancestor(self.tree, 8, 4))
-    
-    def test_Treefind_common_same_subtree(self):
-        #same subtree, it should be parent
-        self.assertEqual(7, Tree.find_common_ancestor(self.tree, 6, 8))
+    def testAddComposite(self):
+        self.root_node.add(Composite())
+        self.assertTrue(len(self.root_node.children) == 3)
 
-    def test_Treefind_common_different_levels(self):
-        #different subtrees and different levels, it should be the root
-        self.assertEqual(3, Tree.find_common_ancestor(self.tree, 7, 1))
-    
-    def test_Treefind_common_parent_and_child(self):
-        #parent and child, common ancestor the 'grandparent'
-        self.assertEqual(5, Tree.find_common_ancestor(self.tree, 7, 8))
+    def testGetMethod(self):
+        self.assertTrue(Node.get(self.leaf_a._id) is self.leaf_a)
 
-    def test_TreeFind_common_nodes_not_on_tree(self):
-        #test with nodes that are not in the tree, it should be None
-        self.assertEqual(None, Tree.find_common_ancestor(self.tree, 9, 15))
-      
-    def test_TreeFind_common_one_node_not_on_tree(self):
-        #if only one of the nodes is in the tree, then the common ancestor is the root, since we could assume the other 
-        #could be added at some point. 
-        self.assertEqual(None, Tree.find_common_ancestor(self.tree, -5, 15))
+    def testRemove(self):
+        self.root_node.remove(self.leaf_a, self.leaf_b)
+        self.assertTrue(self.leaf_a not in self.root_node.children)
+        self.assertTrue(self.leaf_b not in self.root_node.children)
 
-    def test_TreeFind_common_traverse(self):
-        self.assertEqual(8, Tree.traverse(self.tree, self.tree.root))
+    def testOrdering(self):
+        self.root_node.add(self.leaf_b, self.leaf_a)
+        self.assertTrue(self.root_node.children[-1] is self.leaf_a)
+
+    def testTraverse(self):
+        processing_order = []
+
+        def callback(node):
+            processing_order.append(node)
+
+        leaf_c = Node()
+        self.leaf_a.add(leaf_c)
+        traverse(self.root_node, callback)
+        self.assertTrue(processing_order == [
+                        self.root_node, self.leaf_a, leaf_c, self.leaf_b])
+
 
 if __name__ == '__main__':
     unittest.main()
