@@ -41,5 +41,21 @@ class Composite(Node):
         for i in nodes:
             self.children.remove(i)
 
+def traverse(root, dispatch):
+    """
+    Traverse down the tree, processing nodes from left to right, calling dispatch on each node.
+    """
+    stack = deque([root])
+    stack_pop = stack.popleft
+    stack_extend = stack.extend
+    stack_rotate = stack.rotate
+    while stack:
+        node = stack_pop()
+        dispatch(node)
+        if hasattr(node, 'children'):
+            stack_extend(node.children)
+            stack_rotate(len(node.children))
+
+
 if __name__ == "__main__":
    print('creating dag')
