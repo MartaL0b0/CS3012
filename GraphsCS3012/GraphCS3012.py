@@ -6,7 +6,7 @@ class Node(object):
     A node in a graph.
     """
     _instances = weakref.WeakValueDictionary()
-    _instance_count = 0
+    _instance_count = 1
 
     def __new__(cls, *args, **kw):
         instance = object.__new__(cls, *args, **kw)
@@ -40,6 +40,9 @@ class Composite(Node):
     def remove(self, *nodes):
         for i in nodes:
             self.children.remove(i)
+    
+    def __repr__(self):
+        return "<%s #%s object>" % (self.__class__.__name__, self._id)
 
 def traverse(root, dispatch):
     """
@@ -58,4 +61,36 @@ def traverse(root, dispatch):
 
 
 if __name__ == "__main__":
-   print('creating dag')
+    from sys import stdout
+    print('creating dag')
+
+    #create a graph that looks like the one in the README file.
+    node_1 = Composite()
+    node_2 = Composite()
+    node_3 = Composite()
+    node_4 = Composite()
+    node_5 = Composite()
+    node_6 = Composite()
+    node_7 = Composite()
+    node_8 = Node() #because it is the only one without children
+
+    node_7.add(node_8)
+    node_6.add(node_8)
+    node_5.add(node_8)
+    node_4.add(node_5, node_6, node_7)
+    node_3.add(node_4)
+    node_2.add(node_4)
+    node_1.add(node_4)
+
+    processing_order = []
+    def callback(node):
+            processing_order.append(node)
+
+    traverse(node_1, callback)
+    print('processing order from 1: ')
+    for (node) in processing_order:
+        stdout.write(" --> %s" % node)
+
+
+   
+
