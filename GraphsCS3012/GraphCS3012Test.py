@@ -1,5 +1,5 @@
 import unittest 
-from GraphCS3012 import *
+from GraphCS3012 import Node, Composite, traverse
 
 class TestDAGClasses(unittest.TestCase):
     def setUp(self):
