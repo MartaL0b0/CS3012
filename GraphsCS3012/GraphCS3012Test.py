@@ -36,6 +36,26 @@ class TestDAGClasses(unittest.TestCase):
         self.assertTrue(processing_order == [
                         self.root_node, self.leaf_a, leaf_c, self.leaf_b])
 
+    def testLCAgetAncestors(self):
+        #test for 1 node it retrieves all the ancestors
+    
+    def testLCAgetCommons(self):
+        #test for 2 nodes there are common ancestors
+
+    def testLCAgetLowestCommon(self):
+        #test for 2 nodes it gets the lowest common
+
+    def testLCAfullFlow2(self):
+        #full functionality for nodes 1 and 2
+
+    def testLCAfullFlow2(self):
+        #full functionality for nodes 3 and 4
+
+    def testLCAfullFlow3(self):
+        #full functionality for nodes 4 and 8
+
+    def testLCAfullFlow4(self):
+        #full functionality for nodes 5 and 7
 
 if __name__ == '__main__':
     unittest.main()

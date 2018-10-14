@@ -59,6 +59,11 @@ def traverse(root, dispatch):
             stack_extend(node.children)
             stack_rotate(len(node.children))
 
+def lowest_common_ancestor(node1, node2):
+    #algorithm: 
+        #1 - find ancestors from both
+        #2 - find commons
+        #3 - find lowest common
 
 if __name__ == "__main__":
     from sys import stdout
@@ -72,7 +77,7 @@ if __name__ == "__main__":
     node_5 = Composite()
     node_6 = Composite()
     node_7 = Composite()
-    node_8 = Node() #because it is the only one without children
+    node_8 = Composite() #because it is the only one without children
 
     node_7.add(node_8)
     node_6.add(node_8)
@@ -86,11 +91,11 @@ if __name__ == "__main__":
     def callback(node):
             processing_order.append(node)
 
-    traverse(node_1, callback)
-    print('processing order from 1: ')
+    traverse(node_5, callback)
+    print('processing order from 5: ')
     for (node) in processing_order:
         stdout.write(" --> %s" % node)
 
 
-   
+    
 
