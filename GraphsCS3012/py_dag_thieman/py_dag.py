@@ -88,8 +88,10 @@ class DAG(object):
         """ Reset the graph and build it from the passed dictionary.
 
         The dictionary takes the form of {node_name: [directed edges]}
-        """
 
+        Use only as an auxiliar method, as it doesn't validate cycles.
+        """
+        
         self.reset_graph()
         for new_node in six.iterkeys(graph_dict):
             self.add_node(new_node)
@@ -141,17 +143,17 @@ class DAG(object):
             if in_degree[u] == 0:
                 queue.appendleft(u)
 
-        l = []
+        top_sort = []
         while queue:
             u = queue.pop()
-            l.append(u)
+            top_sort.append(u)
             for v in graph[u]:
                 in_degree[v] -= 1
                 if in_degree[v] == 0:
                     queue.appendleft(v)
 
-        if len(l) == len(graph):
-            return l
+        if len(top_sort) == len(graph):
+            return top_sort
         else:
             raise ValueError('graph is not acyclic')
 
