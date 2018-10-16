@@ -12,8 +12,11 @@ class TestPyDag(unittest.TestCase):
 
     def testAddDuplicatedNode(self):
         self.dag.add_node(1)
-        with self.assertRaises(KeyError):
+        with self.assertRaises(KeyError) as ex:
             self.dag.add_node(1)
+
+        err = ex.exception
+        self.assertEqual(str(err), "'node 1 already exists'")
     
     def testDeleteNode(self):
         self.dag.add_node(1)
@@ -22,8 +25,11 @@ class TestPyDag(unittest.TestCase):
 
     def testDeleteNonExistingNode(self):
         self.dag.add_node(1)
-        with self.assertRaises(KeyError):
+        with self.assertRaises(KeyError) as ex:
             self.dag.delete_node(2)
+
+        err = ex.exception
+        self.assertEqual(str(err), "'node 2 does not exist'")
 
     def testDeleteNodeIfExists(self):
         self.dag.add_node(1)
@@ -47,8 +53,12 @@ class TestPyDag(unittest.TestCase):
     def testAddEdgeNonExistingNodes(self):
         self.dag.add_node(1)
         self.dag.add_node(2)
-        with self.assertRaises(KeyError): 
+        with self.assertRaises(KeyError) as ex: 
             self.dag.add_edge(1, 3)
+
+        err = ex.exception
+        self.assertEqual(str(err), "'one or more nodes do not exist in graph'")
+
 
     def testDeleteEdge(self):
         self.dag.add_node(1)
@@ -61,8 +71,12 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_node(1)
         self.dag.add_node(2)
         self.dag.add_edge(1, 2)
-        with self.assertRaises(KeyError): 
+        with self.assertRaises(KeyError) as ex: 
             self.dag.delete_edge(1, 3)
+
+        err = ex.exception
+        self.assertEqual(str(err), "'this edge does not exist in graph'")
+
 
     def testPredecessorsOnlyOne(self):
         self.dag.add_node(1)
