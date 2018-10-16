@@ -78,63 +78,11 @@ class DAG(object):
             raise KeyError('this edge does not exist in graph')
         graph[ind_node].remove(dep_node)
 
-    def rename_edges(self, old_task_name, new_task_name, graph=None):
-        """ Change references to a task in existing edges. """
-        if not graph:
-            graph = self.graph
-        for node, edges in graph.items():
-
-            if node == old_task_name:
-                graph[new_task_name] = copy(edges)
-                del graph[old_task_name]
-
-            else:
-                if old_task_name in edges:
-                    edges.remove(old_task_name)
-                    edges.add(new_task_name)
-
     def predecessors(self, node, graph=None):
         """ Returns a list of all predecessors of the given node """
         if graph is None:
             graph = self.graph
         return [key for key in graph if node in graph[key]]
-
-    def downstream(self, node, graph=None):
-        """ Returns a list of all nodes this node has edges towards. """
-        if graph is None:
-            graph = self.graph
-        if node not in graph:
-            raise KeyError('node %s is not in graph' % node)
-        return list(graph[node])
-
-    def all_downstreams(self, node, graph=None):
-        """Returns a list of all nodes ultimately downstream
-        of the given node in the dependency graph, in
-        topological order."""
-        if graph is None:
-            graph = self.graph
-        nodes = [node]
-        nodes_seen = set()
-        i = 0
-        while i < len(nodes):
-            downstreams = self.downstream(nodes[i], graph)
-            for downstream_node in downstreams:
-                if downstream_node not in nodes_seen:
-                    nodes_seen.add(downstream_node)
-                    nodes.append(downstream_node)
-            i += 1
-        return list(
-            filter(
-                lambda node: node in nodes_seen,
-                self.topological_sort(graph=graph)
-            )
-        )
-
-    def all_leaves(self, graph=None):
-        """ Return a list of all leaves (nodes with no downstreams) """
-        if graph is None:
-            graph = self.graph
-        return [key for key in graph if not graph[key]]
 
     def from_dict(self, graph_dict):
         """ Reset the graph and build it from the passed dictionary.
