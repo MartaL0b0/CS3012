@@ -17,6 +17,13 @@ class TestPyDag(unittest.TestCase):
 
         err = ex.exception
         self.assertEqual(str(err), "'node 1 already exists'")
+
+    def testAddNodeIfNotExists(self):
+        self.dag.add_node(1)
+        self.dag.add_node_if_not_exists(1)
+        self.dag.add_node_if_not_exists(2)
+        self.assertTrue(self.dag.graph == {1: set(), 2: set()})
+        #nothing should happen: pass can not be tested explicitly
     
     def testDeleteNode(self):
         self.dag.add_node(1)
@@ -59,7 +66,6 @@ class TestPyDag(unittest.TestCase):
         err = ex.exception
         self.assertEqual(str(err), "'one or more nodes do not exist in graph'")
 
-
     def testDeleteEdge(self):
         self.dag.add_node(1)
         self.dag.add_node(2)
@@ -76,7 +82,6 @@ class TestPyDag(unittest.TestCase):
 
         err = ex.exception
         self.assertEqual(str(err), "'this edge does not exist in graph'")
-
 
     def testPredecessorsOnlyOne(self):
         self.dag.add_node(1)
@@ -108,6 +113,21 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_edge(2, 3)
         self.assertEqual(self.dag.predecessors(3), [2])
 
+    def testFromDict(self):
+        self.dag.add_node(1)
+        dict1 = {2: [3, 4], 3: [], 4: [3]}
+        self.dag.from_dict(dict1)
+        self.assertTrue(self.dag.graph == {
+                        2: set([3, 4]), 3: set(), 4: set([3])})
+
+    def testFromDictWrongFormat(self):
+        self.dag.add_node(1)
+        dict2 = {2: set([3, 4]), 3: set(), 4: set([3])}
+        with self.assertRaises(TypeError) as ex:
+            self.dag.from_dict(dict2)
+
+        err = ex.exception
+        self.assertEqual(str(err), 'dict values must be lists')       
 
 if __name__ == '__main__':
     unittest.main()
