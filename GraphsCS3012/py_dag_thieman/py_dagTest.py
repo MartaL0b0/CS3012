@@ -66,6 +66,16 @@ class TestPyDag(unittest.TestCase):
         err = ex.exception
         self.assertEqual(str(err), "'one or more nodes do not exist in graph'")
 
+    def testAddEdgeCreateCycle(self):
+        #TODO: fix this, is not working as expected
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(2, 3)
+        self.dag.add_edge(3, 1)
+        self.assertTrue(self.dag.graph == {1: set([2]), 2: set([3]), 3: set()})
+
     def testDeleteEdge(self):
         self.dag.add_node(1)
         self.dag.add_node(2)
