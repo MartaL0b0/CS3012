@@ -32,6 +32,12 @@ class TestPyDag(unittest.TestCase):
         self.assertTrue(self.dag.graph == {1: set()})
         #nothing should happen: pass can not be tested explicitly
 
+    def testResetGraph(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.reset_graph()
+        self.assertTrue(self.dag.graph == {})
+
     def testAddEdge(self):
         self.dag.add_node(1)
         self.dag.add_node(2)
@@ -44,10 +50,6 @@ class TestPyDag(unittest.TestCase):
         with self.assertRaises(KeyError): 
             self.dag.add_edge(1, 3)
 
-        
-            
-
-
     def testDeleteEdge(self):
         self.dag.add_node(1)
         self.dag.add_node(2)
@@ -55,8 +57,42 @@ class TestPyDag(unittest.TestCase):
         self.dag.delete_edge(1, 2)
         self.assertTrue(self.dag.graph == {1: set(), 2: set()})
 
-   # def testDeleteNonExistingEdge(self):
+    def testDeleteNonExistingEdge(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_edge(1, 2)
+        with self.assertRaises(KeyError): 
+            self.dag.delete_edge(1, 3)
 
+    def testPredecessorsOnlyOne(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_edge(1, 2)
+        self.assertEqual(self.dag.predecessors(2), [1])
+    
+    def testPredecessorsMoreThanOne(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_node(4)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(3, 2)
+        self.dag.add_edge(4, 2)
+        self.assertEqual(self.dag.predecessors(2), [1, 3, 4])
+    
+    def testPredecessorsRoot(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_edge(1, 2)
+        self.assertEqual(self.dag.predecessors(1), [])
+
+    def testPredecessorsMoreLevels(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(2, 3)
+        self.assertEqual(self.dag.predecessors(3), [2])
 
 
 if __name__ == '__main__':
