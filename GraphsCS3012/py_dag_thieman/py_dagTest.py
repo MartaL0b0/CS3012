@@ -127,7 +127,65 @@ class TestPyDag(unittest.TestCase):
             self.dag.from_dict(dict2)
 
         err = ex.exception
-        self.assertEqual(str(err), 'dict values must be lists')       
+        self.assertEqual(str(err), 'dict values must be lists')
+
+    def testIndependentNodes(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(2, 3)
+        self.assertEqual(self.dag.ind_nodes(), [1])
+
+    def testIndependentNodesMoreThanOne(self):
+        dict1 = {1: [4], 2: [4], 3: [4], 4: [
+            5, 6, 7], 5: [8], 6: [8], 7: [8], 8: []}
+        self.dag.from_dict(dict1)
+        self.assertEqual(self.dag.ind_nodes(), [1, 2, 3])
+
+    def testValidateFalseCycle(self):
+        dict2 = {1: [4], 2: [4], 3: [4], 4: [
+            5, 6, 7], 5: [8], 6: [8], 7: [8], 8: [1, 2, 3]}
+        self.dag.from_dict(dict2)
+        self.assertEqual(self.dag.validate(),
+                          (False, 'no independent nodes detected'))
+
+    def testValidateTrue(self):
+        dict2 = {1: [4], 2: [4], 3: [4], 4: [
+            5, 6, 7], 5: [8], 6: [8], 7: [8], 8: []}
+        self.dag.from_dict(dict2)
+        self.assertEqual(self.dag.validate(),(True, 'valid'))
+    
+    def testTopologicalSortOk(self):
+        dict3 = {1: [4], 2: [4], 3: [4], 4: [
+            5, 6, 7], 5: [8], 6: [8], 7: [8], 8: []}
+        self.dag.from_dict(dict3)
+        self.assertEqual(self.dag.topological_sort(), [1, 2, 3, 4, 5, 6, 7, 8])
+        
+    def testTopologicalSortErrorCycle(self):
+        dict3 = {1: [4], 2: [4], 3: [4], 4: [
+            5, 6, 7], 5: [8], 6: [8], 7: [8], 8: [1,2,3]}
+        self.dag.from_dict(dict3)
+        with self.assertRaises(ValueError) as ex:
+            self.dag.topological_sort()
+
+        err = ex.exception
+        self.assertEqual(str(err), 'graph is not acyclic')
+        
+    def testSizeEmpty(self):
+        self.assertEqual(self.dag.size(), 0)
+
+    def testSizeAdd(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.assertEqual(self.dag.size(), 3)
+
+    def testSizeAddDelete(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.delete_node(2)
+        self.assertEqual(self.dag.size(), 1)
 
 if __name__ == '__main__':
     unittest.main()
