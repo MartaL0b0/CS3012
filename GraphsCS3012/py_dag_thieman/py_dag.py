@@ -14,18 +14,18 @@ class DAGValidationError(Exception):
 
 
 class DAG(object):
-    """ Directed acyclic graph implementation. """
+    #Directed acyclic graph implementation.
 
     def __init__(self):
-        """ Construct a new DAG with no nodes or edges. """
+        #Construct a new DAG with no nodes or edges.
         self.reset_graph()
 
     def reset_graph(self):
-        """ Restore the graph to an empty state. """
+        #Restore the graph to an empty state.
         self.graph = OrderedDict()
 
     def add_node(self, node_name, graph=None):
-        """ Add a node if it does not exist yet, or error out. """
+        #Add a node if it does not exist yet, or error out.
         if not graph:
             graph = self.graph
         if node_name in graph:
@@ -39,7 +39,7 @@ class DAG(object):
             pass
 
     def delete_node(self, node_name, graph=None):
-        """ Deletes this node and all edges referencing it. """
+        #Deletes this node and all edges referencing it.
         if not graph:
             graph = self.graph
         if node_name not in graph:
@@ -57,7 +57,7 @@ class DAG(object):
             pass
 
     def add_edge(self, ind_node, dep_node, graph=None):
-        """ Add an edge (dependency) between the specified nodes. """
+        #Add an edge (dependency) between the specified nodes.
         if not graph:
             graph = self.graph
         if ind_node not in graph or dep_node not in graph:
@@ -71,7 +71,7 @@ class DAG(object):
             raise DAGValidationError()
 
     def delete_edge(self, ind_node, dep_node, graph=None):
-        """ Delete an edge from the graph. """
+        #Delete an edge from the graph.
         if not graph:
             graph = self.graph
         if dep_node not in graph.get(ind_node, []):
@@ -79,7 +79,7 @@ class DAG(object):
         graph[ind_node].remove(dep_node)
 
     def predecessors(self, node, graph=None):
-        """ Returns a list of all predecessors of the given node """
+        #Returns a list of all predecessors of the given node
         if graph is None:
             graph = self.graph
         return [key for key in graph if node in graph[key]]
@@ -88,7 +88,7 @@ class DAG(object):
         return len(self.graph)
 
     def downstream(self, node, graph=None):
-        """ Returns a list of all nodes this node has edges towards. """
+        #Returns a list of all nodes this node has edges towards.
         if graph is None:
             graph = self.graph
         if node not in graph:
@@ -96,9 +96,9 @@ class DAG(object):
         return list(graph[node])
 
     def all_downstreams(self, node, graph=None):
-        """Returns a list of all nodes ultimately downstream
-        of the given node in the dependency graph, in
-        topological order."""
+        #Returns a list of all nodes ultimately downstream
+        #of the given node in the dependency graph, in
+        #topological order.
         if graph is None:
             graph = self.graph
         nodes = [node]
@@ -119,17 +119,14 @@ class DAG(object):
         )
 
     def all_leaves(self, graph=None):
-        """ Return a list of all leaves (nodes with no downstreams) """
+        #Return a list of all leaves (nodes with no downstreams)
         if graph is None:
             graph = self.graph
         return [key for key in graph if not graph[key]]
 
     def from_dict(self, graph_dict):
-        """ Reset the graph and build it from the passed dictionary.
-
-        The dictionary takes the form of {node_name: [directed edges]}
-        """
-
+        #Reset the graph and build it from the passed dictionary.
+        #The dictionary takes the form of {node_name: [directed edges]}
         self.reset_graph()
         for new_node in six.iterkeys(graph_dict):
             self.add_node(new_node)
@@ -140,7 +137,7 @@ class DAG(object):
                 self.add_edge(ind_node, dep_node)
 
     def ind_nodes(self, graph=None):
-        """ Returns a list of all nodes in the graph with no dependencies. """
+        #Returns a list of all nodes in the graph with no dependencies.
         if graph is None:
             graph = self.graph
 
@@ -150,7 +147,7 @@ class DAG(object):
         return [node for node in graph.keys() if node not in dependent_nodes]
 
     def __validate(self, graph=None):
-        """ Returns (Boolean, message) of whether DAG is valid. """
+        #Returns (Boolean, message) of whether DAG is valid.
         graph = graph if graph is not None else self.graph
         if len(self.ind_nodes(graph)) == 0:
             return (False, 'no independent nodes detected')
@@ -161,10 +158,9 @@ class DAG(object):
         return (True, 'valid')
 
     def __topological_sort(self, graph=None):
-        """ Returns a topological ordering of the DAG.
-
-        Raises an error if this is not possible (graph is not valid).
-        """
+        #Returns a topological ordering of the DAG.
+        #Raises an error if this is not possible (graph is not valid).
+       
         if graph is None:
             graph = self.graph
 
