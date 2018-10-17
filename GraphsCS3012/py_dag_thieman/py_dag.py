@@ -192,11 +192,12 @@ class DAG(object):
             raise ValueError('graph is not acyclic')
 
     def LCA(self, nodeA, nodeB):
-        #if A and B in ind_nodes - return {}
-        #if A or B in ind_nodes - return {A} or {B}
-        #else:
+        #Return the Lowest Common Ancestor for two nodes
+        #Consider edge cases first.
         roots = set(self.ind_nodes()) 
-        if nodeA in roots and nodeB in roots:
+        if nodeA == nodeB:
+            return set(self.predecessors(nodeA))
+        elif nodeA in roots and nodeB in roots:
             return {}
         elif nodeA in roots:
             return {nodeA}
@@ -205,7 +206,6 @@ class DAG(object):
         else:
             predecessorsA = set([nodeA])
             predecessorsB = set([nodeB])
-
             #can not iterate a set and update it at the same time
             while predecessorsA.intersection(predecessorsB) == set():
                 for node in predecessorsA.copy():

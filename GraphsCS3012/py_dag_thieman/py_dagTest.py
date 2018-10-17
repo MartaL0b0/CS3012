@@ -1,4 +1,3 @@
-""" Tests on the DAG implementation """
 import unittest
 import py_dag
 
@@ -232,8 +231,8 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_edge(6, 5)
         self.dag.add_edge(5, 2)
 
-        self.assertEqual(self.dag.LCA(3, 3), {3})
-        #following the logic for parent-child, for two nodes the LCA is itself
+        self.assertEqual(self.dag.LCA(3, 3), {4})
+        #if checking the same node, the LCA are all the predecessors
         
     def testLCARoots(self):
         #painting the graph from the slides, adding one 'root' node
@@ -257,6 +256,7 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_edge(5, 2)
 
         self.assertEqual(self.dag.LCA(7, 8), {})
+        #if both nodes are 'roots', they won't have any LCA
 
 if __name__ == '__main__':
     unittest.main()
