@@ -192,16 +192,27 @@ class DAG(object):
             raise ValueError('graph is not acyclic')
 
     def LCA(self, nodeA, nodeB):
-        predecessorsA = set([nodeA])
-        predecessorsB = set([nodeB])
+        #if A and B in ind_nodes - return {}
+        #if A or B in ind_nodes - return {A} or {B}
+        #else:
+        roots = set(self.ind_nodes()) 
+        if nodeA in roots and nodeB in roots:
+            return {}
+        elif nodeA in roots:
+            return {nodeA}
+        elif nodeB in roots:
+            return {nodeB}
+        else:
+            predecessorsA = set([nodeA])
+            predecessorsB = set([nodeB])
 
-        #can not iterate a set and update it at the same time
-        while predecessorsA.intersection(predecessorsB) == set():
-            for node in predecessorsA.copy():
-                predecessorsA = predecessorsA.union(
-                    set([pred for pred in self.predecessors(node)]))
-            for node in predecessorsB.copy():
-                predecessorsB = predecessorsB.union(
-                    set([pred for pred in self.predecessors(node)]))
+            #can not iterate a set and update it at the same time
+            while predecessorsA.intersection(predecessorsB) == set():
+                for node in predecessorsA.copy():
+                    predecessorsA = predecessorsA.union(
+                        set([pred for pred in self.predecessors(node)]))
+                for node in predecessorsB.copy():
+                    predecessorsB = predecessorsB.union(
+                        set([pred for pred in self.predecessors(node)]))
 
-        return predecessorsA.intersection(predecessorsB)
+            return predecessorsA.intersection(predecessorsB)

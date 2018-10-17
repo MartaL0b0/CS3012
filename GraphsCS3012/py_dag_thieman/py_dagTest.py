@@ -235,7 +235,7 @@ class TestPyDag(unittest.TestCase):
         self.assertEqual(self.dag.LCA(3, 3), {3})
         #following the logic for parent-child, for two nodes the LCA is itself
         
-    """ def testLCARoots(self):
+    def testLCARoots(self):
         #painting the graph from the slides, adding one 'root' node
         #https://goo.gl/FegKxv
         self.dag.add_node(1)
@@ -256,7 +256,7 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_edge(6, 5)
         self.dag.add_edge(5, 2)
 
-        self.assertEqual(self.dag.LCA(7, 8), {}) """
+        self.assertEqual(self.dag.LCA(7, 8), {})
 
 if __name__ == '__main__':
     unittest.main()
