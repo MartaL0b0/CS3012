@@ -67,7 +67,6 @@ class TestPyDag(unittest.TestCase):
         self.assertEqual(str(err), "'one or more nodes do not exist in graph'")
 
     def testAddEdgeCreateCycle(self):
-        #TODO: fix this, is not working as expected
         self.dag.add_node(1)
         self.dag.add_node(2)
         self.dag.add_node(3)
@@ -168,6 +167,95 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_node(2)
         self.dag.delete_node(2)
         self.assertEqual(self.dag.size(), 1)
+
+    def testLCAIndependentNodes(self):
+        #painting the graph from the slides, with numbers instead of letters
+        #https://goo.gl/FegKxv
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_node(4)
+        self.dag.add_node(5)
+        self.dag.add_node(6)
+        self.dag.add_node(7)
+
+        self.dag.add_edge(2, 1)
+        self.dag.add_edge(3, 2)
+        self.dag.add_edge(4, 3)
+        self.dag.add_edge(7, 4)
+        self.dag.add_edge(7, 6)
+        self.dag.add_edge(6, 5)
+        self.dag.add_edge(5, 2)
+
+        self.assertEqual(self.dag.LCA(3,6), {7})
+        #the LCA list can have more than one element, as edges have no weights
+
+    def testLCAParentChild(self):
+        #painting the graph from the slides, with numbers instead of letters
+        #https://goo.gl/FegKxv
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_node(4)
+        self.dag.add_node(5)
+        self.dag.add_node(6)
+        self.dag.add_node(7)
+
+        self.dag.add_edge(2, 1)
+        self.dag.add_edge(3, 2)
+        self.dag.add_edge(4, 3)
+        self.dag.add_edge(7, 4)
+        self.dag.add_edge(7, 6)
+        self.dag.add_edge(6, 5)
+        self.dag.add_edge(5, 2)
+
+        self.assertEqual(self.dag.LCA(2, 5), {5})
+        #For this implementation, if one node is ancestor of the other
+        #that is going to be the LCA
+
+    def testLCASelf(self):
+        #painting the graph from the slides, with numbers instead of letters
+        #https://goo.gl/FegKxv
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_node(4)
+        self.dag.add_node(5)
+        self.dag.add_node(6)
+        self.dag.add_node(7)
+
+        self.dag.add_edge(2, 1)
+        self.dag.add_edge(3, 2)
+        self.dag.add_edge(4, 3)
+        self.dag.add_edge(7, 4)
+        self.dag.add_edge(7, 6)
+        self.dag.add_edge(6, 5)
+        self.dag.add_edge(5, 2)
+
+        self.assertEqual(self.dag.LCA(3, 3), {7})
+        
+    def testLCARoots(self):
+        #painting the graph from the slides, adding one 'root' node
+        #https://goo.gl/FegKxv
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_node(4)
+        self.dag.add_node(5)
+        self.dag.add_node(6)
+        self.dag.add_node(7)
+        self.dag.add_node(8)
+
+        self.dag.add_edge(2, 1)
+        self.dag.add_edge(3, 2)
+        self.dag.add_edge(4, 3)
+        self.dag.add_edge(7, 4)
+        self.dag.add_edge(7, 6)
+        self.dag.add_edge(8, 6)
+        self.dag.add_edge(6, 5)
+        self.dag.add_edge(5, 2)
+
+        self.assertEqual(self.dag.LCA(7, 8), {})
 
 if __name__ == '__main__':
     unittest.main()
