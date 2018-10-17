@@ -73,7 +73,8 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_node(3)
         self.dag.add_edge(1, 2)
         self.dag.add_edge(2, 3)
-        self.dag.add_edge(3, 1)
+        with self.assertRaises(py_dag.DAGValidationError) as ex:
+            self.dag.add_edge(3, 1)
         self.assertTrue(self.dag.graph == {1: set([2]), 2: set([3]), 3: set()})
 
     def testDeleteEdge(self):
@@ -156,9 +157,10 @@ class TestPyDag(unittest.TestCase):
     def testValidateFalseCycle(self):
         dict2 = {1: [4], 2: [4], 3: [4], 4: [
             5, 6, 7], 5: [8], 6: [8], 7: [8], 8: [1, 2, 3]}
-        self.dag.from_dict(dict2)
+        with self.assertRaises(py_dag.DAGValidationError):
+            self.dag.from_dict(dict2)
         self.assertEqual(self.dag.validate(),
-                          (False, 'no independent nodes detected'))
+                          (True, 'valid'))
 
     def testValidateTrue(self):
         dict2 = {1: [4], 2: [4], 3: [4], 4: [
@@ -175,12 +177,15 @@ class TestPyDag(unittest.TestCase):
     def testTopologicalSortErrorCycle(self):
         dict3 = {1: [4], 2: [4], 3: [4], 4: [
             5, 6, 7], 5: [8], 6: [8], 7: [8], 8: [1,2,3]}
-        self.dag.from_dict(dict3)
+        with self.assertRaises(py_dag.DAGValidationError):
+            self.dag.from_dict(dict3)
+        #this is not raised
+        """  
         with self.assertRaises(ValueError) as ex:
             self.dag.topological_sort()
 
         err = ex.exception
-        self.assertEqual(str(err), 'graph is not acyclic')
+        self.assertEqual(str(err), 'graph is not acyclic') """
         
     def testSizeEmpty(self):
         self.assertEqual(self.dag.size(), 0)
