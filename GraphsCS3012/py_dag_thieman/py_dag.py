@@ -191,4 +191,17 @@ class DAG(object):
         else:
             raise ValueError('graph is not acyclic')
 
-    
+    def LCA(self, nodeA, nodeB):
+        predecessorsA = set([nodeA])
+        predecessorsB = set([nodeB])
+
+        #can not iterate a set and update it at the same time
+        while predecessorsA.intersection(predecessorsB) == set():
+            for node in predecessorsA.copy():
+                predecessorsA = predecessorsA.union(
+                    set([pred for pred in self.predecessors(node)]))
+            for node in predecessorsB.copy():
+                predecessorsB = predecessorsB.union(
+                    set([pred for pred in self.predecessors(node)]))
+
+        return predecessorsA.intersection(predecessorsB)
