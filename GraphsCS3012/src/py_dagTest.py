@@ -4,6 +4,10 @@ import py_dag
 class TestPyDag(unittest.TestCase):
     def setUp(self):
         self.dag = py_dag.DAG()
+
+    def testInit(self):
+        self.dag1 = py_dag.DAG()
+        self.assertTrue(self.dag.graph == {})
         
     def testAddNode(self):
         self.dag.add_node(1)
@@ -166,6 +170,63 @@ class TestPyDag(unittest.TestCase):
         self.dag.add_node(2)
         self.dag.delete_node(2)
         self.assertEqual(self.dag.size(), 1)
+
+    def testDownstream(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(1, 3)
+        self.assertEqual(self.dag.downstream(1), [2, 3])
+
+    def testDownstreamEmpty(self):
+        with self.assertRaises(KeyError) as ex: 
+            self.dag.downstream(1)
+        
+        err = ex.exception
+        self.assertEqual(str(err), "'node 1 is not in graph'")
+    
+    def testDownstreamLeaf(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(1, 3)
+        self.assertEqual(self.dag.downstream(2), [])
+
+    def testAllDownstreams(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(2, 3)
+        self.assertEqual(self.dag.all_downstreams(1), [2, 3])
+
+    def testAllDownstreamsLevels(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_node(4)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(2, 3)
+        self.dag.add_edge(2, 4)
+        self.assertEqual(self.dag.all_downstreams(1), [2, 3, 4])
+
+    def testAllDownstreamsLeaf(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(2, 3)
+        self.assertEqual(self.dag.downstream(3), [])
+
+    def testAllLeaves(self):
+        self.dag.add_node(1)
+        self.dag.add_node(2)
+        self.dag.add_node(3)
+        self.dag.add_edge(1, 2)
+        self.dag.add_edge(1, 3)
+        self.assertEqual(self.dag.all_leaves(), [2, 3])
 
     def testLCAIndependentNodes(self):
         #painting the graph from the slides, with numbers instead of letters
