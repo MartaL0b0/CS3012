@@ -7,9 +7,6 @@ const reposContainer = document.querySelector(".main__profile-repos");
 const urlContainer = document.querySelector(".main__profile-url");
 const avatarContainer = document.querySelector(".main__profile-avatar");
 
-const client_id = 'Iv1.998edc0aa181fcce';
-const client_secret = 'cc10fc862c91e2ea6cfbdaf26410f2c65e38ac19';
-
 const fetchUsers = async (username, password) => {
     const url = "https://api.github.com/user";
     const auth = btoa(username + ":" + password);
