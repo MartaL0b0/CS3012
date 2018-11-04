@@ -19,6 +19,15 @@ const showData = () => {
     console.log(`Querying user ${inputValue.value}`);
     fetchUsers(inputValue.value).then((res) => {
         console.log(res);
+
+        nameContainer.innerHTML = `Name: <span class="main__profile-value">${res.data.name}</span>`;
+        unContainer.innerHTML = `Username: <span class="main__profile-value">${res.data.login}</span>`;
+
+        reposContainer.innerHTML = `Repositories: <span class="main__profile-value">${res.data.public_repos}</span>`;
+
+        urlContainer.innerHTML = `URL: <span class="main__profile-value">${res.data.html_url}</span>`;
+
+
     })
 };
 
