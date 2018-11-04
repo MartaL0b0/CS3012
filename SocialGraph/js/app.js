@@ -1,33 +1,32 @@
-var github = require(octonode);
-
-var client = github.client({
-    id: 'Iv1.998edc0aa181fcce',
-    secret: 'cc10fc862c91e2ea6cfbdaf26410f2c65e38ac19'
-});
-
-const inputValue = document.querySelector("#search");
+const userValue = document.querySelector("#username");
+const passwordValue = document.querySelector("#password");
 const searchButton = document.querySelector(".searchButton");
 const nameContainer = document.querySelector(".main__profile-name");
 const unContainer = document.querySelector(".main__profile-username");
 const reposContainer = document.querySelector(".main__profile-repos");
 const urlContainer = document.querySelector(".main__profile-url");
 
-/* const client_id = 'Iv1.998edc0aa181fcce';
-const client_secret = 'cc10fc862c91e2ea6cfbdaf26410f2c65e38ac19'; */
+const client_id = 'Iv1.998edc0aa181fcce';
+const client_secret = 'cc10fc862c91e2ea6cfbdaf26410f2c65e38ac19';
 
-const fetchUsers = async (user) => {
-   // const api_call = await fetch(`https://api.github.com/users/${user}?client_id=${client_id}&client_secret=${client_secret}`);
-    
-    var data;
-    client.get('/user', {}, function (err, status, body, headers) {
-        data = body; //json object
-    });
+const fetchUsers = async (username, password) => {
+    const url = "https://api.github.com/user";
+    const auth = btoa(username + ":" + password);
+    const userParams = {
+        headers: {
+            'Authorization': 'Basic ' + auth
+        }
+    }
+
+    const api_call = await fetch(url, userParams);
+
+    const data = await api_call.json();
     return { data }
 };
 
 const showData = () => {
-    console.log(`Querying user ${inputValue.value}`);
-    fetchUsers(inputValue.value).then((res) => {
+    console.log(`Querying user ${userValue.value}`);
+    fetchUsers(userValue.value, passwordValue.value).then((res) => {
         console.log(res);
 
         nameContainer.innerHTML = `Name: <span class="main__profile-value">${res.data.name}</span>`;
