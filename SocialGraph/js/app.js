@@ -5,6 +5,7 @@ const nameContainer = document.querySelector(".main__profile-name");
 const unContainer = document.querySelector(".main__profile-username");
 const reposContainer = document.querySelector(".main__profile-repos");
 const urlContainer = document.querySelector(".main__profile-url");
+const avatarContainer = document.querySelector(".main__profile-avatar");
 
 const client_id = 'Iv1.998edc0aa181fcce';
 const client_secret = 'cc10fc862c91e2ea6cfbdaf26410f2c65e38ac19';
@@ -36,7 +37,7 @@ const showData = () => {
 
         urlContainer.innerHTML = `URL: <span class="main__profile-value">${res.data.html_url}</span>`;
 
-
+        avatarContainer.innerHTML = `<img src="${res.data.avatar_url}" alt="Smiley face" height="150">`;
     })
 };
 
