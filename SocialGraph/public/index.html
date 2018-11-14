@@ -46,7 +46,7 @@
               <input type="text" id="username" class="main__input" placeholder="Username">
               <input type="password" id="password" class="main__input" placeholder="Password">
               <span>
-                <a class="btn btn--shallow searchButton">Search</a>
+                <a class="btn btn--shallow searchButton" id="searchButton">Search yourself</a>
               </span>
             </div>
           </div>
@@ -78,6 +78,15 @@
             </div>
           </div>
         </div>
+        
+        <div class="main__input-container">
+          <input type="text" id="repoUser" class="main__input" placeholder="User">
+          <input type="text" id="repoName" class="main__input" placeholder="Repository">
+          <span>
+            <a class="btn btn--shallow searchButton" id="statsButton">Get busiest day</a>
+          </span>
+        </div>
+
       </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
