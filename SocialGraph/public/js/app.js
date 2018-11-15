@@ -82,6 +82,9 @@ const showGithubData = () => {
     console.log(`Querying user  ${repoUser.value} and repo ${repoName.value}`);
     fetchPunchCard(repoUser.value, repoName.value).then((res) => {
         console.log(res); 
+        console.log(res.data[1]);
+        
+        
         //organise values : data structures
         /*  - get count by days
             - get count by hours
