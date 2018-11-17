@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Activity Flow Visuals</title>
+  <link rel="icon" href="img/favicon.png">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- iconic -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <ul class="nav nav-pills float-right">
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/MartaL0b0/CS3012/tree/master/SocialGraph"><span class="oi oi-external-link"></span>
+              Source Code</a>
+          </li>
+        </ul>
+      </nav>
+      <h3 class="text-muted">Activity Flow Visuals</h3>
+    </div>
+
+    <div class="jumbotron">
+      <h1 class="display-4">Show repositories</h1>
+      <p class="lead">Use Github Credentials to provide a list of avaliable repositories to display</p>
+      <!-- Add inputs here -->
+      <p><a class="btn btn-lg btn-success" id="searchButton" href="#" role="button"><span class="oi oi-account-login"></span>
+          Load repositories</a></p>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; Marta Lobo de Pablos 2018</p>
+    </footer>
+
+  </div> <!-- /container -->
+
+  <!-- jQuery & Bootstrap Javascript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+    crossorigin="anonymous"></script>
+
+  <!-- D3js -->
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+
+  <!-- My JavaScript -->
+  <script src="js/app.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBMeEI5gvPyjsFUtyCRrZhnewx-eBY67aU",
+      authDomain: "social-graph-lobodepm.firebaseapp.com",
+      databaseURL: "https://social-graph-lobodepm.firebaseio.com",
+      projectId: "social-graph-lobodepm",
+      storageBucket: "social-graph-lobodepm.appspot.com",
+      messagingSenderId: "1023475694831"
+    };
+    firebase.initializeApp(config);
+  </script>
+</body>
+
+</html>
