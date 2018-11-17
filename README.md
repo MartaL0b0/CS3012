@@ -33,9 +33,9 @@ This assignment will consist on a simple web client that, given a username and a
 The approach is inspired in [this tutorial](https://www.youtube.com/watch?v=sJspH620ZsU&t=691s), which I used to set the starting point.
 
 ##How to run it
-As it currently is just a Client Web File, there is no need for a server. The calls are done via browser, so an Internet conection is required. 
+As it is just a Client Web File, there is no need for a server. The calls are done via browser, so an Internet conection is required. 
 ```
-Open **index.js** on a browser and provide details of a username and a password for an actual Github Account. 
+To access it, browse to [https://github-access-lobodepm.firebaseapp.com/](https://github-access-lobodepm.firebaseapp.com/)
 ```
 
 
