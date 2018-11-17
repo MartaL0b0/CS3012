@@ -32,11 +32,11 @@ Luz is a Spanish researcher in HCI and Linguistics, and has developed a system t
 This assignment will consist on a simple web client that, given a username and a password provided by the user, it will access the Github API using the Fetch JS API, and display some information about that user. It will be a first step towards the last assignment. 
 The approach is inspired in [this tutorial](https://www.youtube.com/watch?v=sJspH620ZsU&t=691s), which I used to set the starting point.
 
-##How to run it
+## How to run it
 As it is just a Client Web File, there is no need for a server. The calls are done via browser, so an Internet conection is required. 
-```
+
 To access it, browse to [https://github-access-lobodepm.firebaseapp.com/](https://github-access-lobodepm.firebaseapp.com/)
-```
+
 
 
 ## Sixth assignment: Social Graph
