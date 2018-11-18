@@ -2,14 +2,12 @@ const userValue = document.querySelector("#username");
 const passwordValue = document.querySelector("#password");
 const searchButton = document.querySelector("#searchButton");
 const reposList = document.querySelector(".list-group");
-let userName;
-let auth;
-let userParams;
+let loggedUser;
 
 const fetchRepositories = async (username, password) => {
     const url = "https://api.github.com/user/repos"; 
-    auth = btoa(username + ":" + password);
-    userParams = {
+    const auth = btoa(username + ":" + password);
+    const userParams = {
         headers: {
             'Authorization': 'Basic ' + auth
         }
@@ -23,32 +21,32 @@ const fetchRepositories = async (username, password) => {
 
 const showData = () => {
     console.log(`Querying user ${userValue.value}`);
-    userName = userValue.value;
+    loggedUser = userValue.value;
     fetchRepositories(userValue.value, passwordValue.value).then((response) => {
         console.log(response);
         for (var i in response.data){
-            let repoOwner = response.data[i].owner.login;
-            let repoName = response.data[i].name;
-            reposList.innerHTML += `<a href="#" 
-                                    class="list-group-item list-group-item-action" 
-                                    id="${repoName}">
-                                    ${repoName}
-                                    </a>`; 
-            if (repoOwner.toLowerCase() !== userName.toLowerCase()){
-                document.querySelector(`#${repoName}`).innerHTML += ` (Owned by ${repoOwner})`; 
-            }
-         
+            var repository = createRepo(response.data[i]);
+            reposList.appendChild(repository);
         }
-        var elementsArray = document.querySelectorAll(".list-group-item-action");
-        console.log(elementsArray);
-
-        elementsArray.forEach(function (elem) {
-            elem.addEventListener("click", function () {
-                showRepoStats(elem.id);
-            });
-        });
-       
     })
+};
+
+const createRepo = (repositoryData) => {
+    let repoOwner = repositoryData.owner.login;
+    let repoName = repositoryData.name;
+
+    var repo = document.createElement('a');
+    repo.innerHTML = repoName;
+    repo.className += "list-group-item list-group-item-action";
+    
+    if (repoOwner.toLowerCase() !== loggedUser.toLowerCase()) {
+        repo.innerHTML += ` (Owned by ${repoOwner})`;
+    }
+    repo.addEventListener("click", (repoOwner, repoName) => {
+        showRepoStats(repoOwner.toString(), repoName.toString());
+    });
+
+    return repo;
 };
 
 const fetchRepositoryPunchCard = async (username, repository) => {
@@ -62,13 +60,12 @@ const fetchRepositoryPunchCard = async (username, repository) => {
     return { data }
 };
 
-const showRepoStats = (repository) => {
-    console.log(`Querying user ${userName} and repo ${repository}`);
-    fetchRepositoryPunchCard(userName, repository).then((response) => {
+const showRepoStats = (username, repository) => {
+    console.log(`Querying user ${username} and repo ${repository}`);
+    fetchRepositoryPunchCard(username, repository).then((response) => {
         console.log(response);
     })
 };
-
 
 
 searchButton.addEventListener("click", () => {
