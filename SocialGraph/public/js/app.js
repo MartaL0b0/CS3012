@@ -1,14 +1,10 @@
 const userValue = document.querySelector("#username");
 const passwordValue = document.querySelector("#password");
 const searchButton = document.querySelector("#searchButton");
-const nameContainer = document.querySelector(".main__profile-name");
-const unContainer = document.querySelector(".main__profile-username");
-const reposContainer = document.querySelector(".main__profile-repos");
-const urlContainer = document.querySelector(".main__profile-url");
-const avatarContainer = document.querySelector(".main__profile-avatar");
+const reposList = document.querySelector(".list-group");
 
-const fetchUsers = async (username, password) => {
-    const url = "https://api.github.com/user";
+const fetchRepositories = async (username, password) => {
+    const url = "https://api.github.com/user/repos"; //change this with reposGET /users/:username/repos
     const auth = btoa(username + ":" + password);
     const userParams = {
         headers: {
@@ -24,8 +20,14 @@ const fetchUsers = async (username, password) => {
 
 const showData = () => {
     console.log(`Querying user ${userValue.value}`);
-    fetchUsers(userValue.value, passwordValue.value).then((res) => {
-        console.log(res);
+    fetchRepositories(userValue.value, passwordValue.value).then((response) => {
+        console.log(response);
+        for (var i in response.data){
+            if (response.data[i].owner.login == userValue.value){
+                reposList.innerHTML += `<a href="${response.data[i].html_url}" class="list-group-item list-group-item-action">${response.data[i].name}</a>`;
+            }
+        }
+       
     })
 };
 
