@@ -25,8 +25,10 @@ const showData = () => {
     fetchRepositories(userValue.value, passwordValue.value).then((response) => {
         console.log(response);
         for (var i in response.data){
-            var repository = createRepo(response.data[i]);
-            reposList.appendChild(repository);
+            if(response.data[i].private !== true){
+                var repository = createRepo(response.data[i]);
+                reposList.appendChild(repository);
+            }
         }
     })
 };
