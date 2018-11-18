@@ -23,9 +23,12 @@ const showData = () => {
     fetchRepositories(userValue.value, passwordValue.value).then((response) => {
         console.log(response);
         for (var i in response.data){
-            if (response.data[i].owner.login == userValue.value){
-                reposList.innerHTML += `<a href="${response.data[i].html_url}" class="list-group-item list-group-item-action">${response.data[i].name}</a>`;
+            reposList.innerHTML += `<a href="${response.data[i].html_url}" class="list-group-item list-group-item-action" id="${response.data[i].owner.login}_${response.data[i].name}">
+                                        ${response.data[i].name}</a>`; 
+            if (response.data[i].owner.login.toLowerCase() !== userValue.value.toLowerCase()){
+                document.querySelector(`#${response.data[i].owner.login}_${response.data[i].name}`).innerHTML += ` (Owned by ${response.data[i].owner.login})`; 
             }
+         
         }
        
     })
