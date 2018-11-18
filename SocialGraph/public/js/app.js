@@ -37,13 +37,15 @@ const createRepo = (repositoryData) => {
 
     var repo = document.createElement('a');
     repo.innerHTML = repoName;
+    repo.dataset.owner = repoOwner;
+    repo.dataset.name = repoName;
     repo.className += "list-group-item list-group-item-action";
     
     if (repoOwner.toLowerCase() !== loggedUser.toLowerCase()) {
         repo.innerHTML += ` (Owned by ${repoOwner})`;
     }
     repo.addEventListener("click", (repoOwner, repoName) => {
-        showRepoStats(repoOwner.toString(), repoName.toString());
+        showRepoStats(repo.dataset.owner, repo.dataset.name);
     });
 
     return repo;
