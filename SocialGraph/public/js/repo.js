@@ -3,6 +3,10 @@ var url = new URL(url_string);
 var repoName = url.searchParams.get("repoName");
 var repoOwner = url.searchParams.get("repoOwner");
 console.log(`Getting repoName ${repoName} and repoOwner ${repoOwner}`);
+var chart = punchcard({
+    target: '#punchcard-bubbles',
+    width: 800
+});
 
 const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/stats/punch_card`;
@@ -21,6 +25,7 @@ const showRepoStats = (repoOwner, repoName) => {
     console.log(`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
         console.log(response);
+        chart.render(response.data);
     })
 };
 
