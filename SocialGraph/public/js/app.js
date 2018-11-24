@@ -19,18 +19,36 @@ const fetchRepositories = async (username, password) => {
     return { data }
 };
 
+const fetchUserInfo = async (username, password) => {
+    const url = "https://api.github.com/user";
+    const auth = btoa(username + ":" + password);
+    const userParams = {
+        headers: {
+            'Authorization': 'Basic ' + auth
+        }
+    }
+
+    const api_call = await fetch(url, userParams);
+
+    const data = await api_call.json();
+    return { data }
+};
+
 const showData = () => {
     console.log(`Querying user ${userValue.value}`);
-    loggedUser = userValue.value;
+    fetchUserInfo(userValue.value, passwordValue.value).then((resp) => {
+        loggedUser = resp.data.login;
+    })
     fetchRepositories(userValue.value, passwordValue.value).then((response) => {
         console.log(response);
-        for (var i in response.data){
-            if(response.data[i].private !== true){
+        for (var i in response.data) {
+            if (response.data[i].private !== true) {
                 var repository = createRepo(response.data[i]);
                 reposList.appendChild(repository);
             }
         }
     })
+   
 };
 
 const createRepo = (repositoryData) => {
@@ -42,8 +60,8 @@ const createRepo = (repositoryData) => {
     repo.dataset.owner = repoOwner;
     repo.dataset.name = repoName;
     repo.className += "list-group-item list-group-item-action";
-    
-    if (repoOwner.toLowerCase() !== loggedUser.toLowerCase()) {
+    console.log(`Finding repos not owned by ${loggedUser} -- owner ${repoOwner}`);
+    if (repoOwner !== loggedUser) {
         repo.innerHTML += ` (Owned by ${repoOwner})`;
     }
     repo.addEventListener("click", (repoOwner, repoName) => {
