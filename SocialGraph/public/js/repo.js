@@ -5,17 +5,12 @@ var repoOwner = url.searchParams.get("repoOwner");
 console.log(`Getting repoName ${repoName} and repoOwner ${repoOwner}`);
 
 const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
-
-    //GET /repos/:owner/:repo/stats/punch_card
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/stats/punch_card`;
-
     const api_call = await fetch(url);
-
     const data = await _parseJSON(api_call);
 
     return {data};
 };
-
 
 const _parseJSON = (response) => {
     return response.text().then(function (text) {
