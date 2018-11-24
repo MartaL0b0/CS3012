@@ -65,20 +65,17 @@ const createRepo = (repositoryData) => {
     if (repoOwner !== loggedUser) {
         repo.innerHTML += ` (Owned by ${repoOwner})`;
     }
-    repo.addEventListener("click", (repoOwner, repoName) => {
+   /*  repo.addEventListener("click", (repoOwner, repoName) => {
         showRepoStats(repo.dataset.owner, repo.dataset.name);
-    });
+    }); */
 
     return repo;
 };
-
+/* 
 const fetchRepositoryPunchCard = async (username, repository) => {
-    
-    //GET /repos/:owner/:repo/stats/punch_card
     const url = `https://api.github.com/repos/${username}/${repository}/stats/punch_card`;
 
     const api_call = await fetch(url);
-
     const data = await api_call.json();
     return { data }
 };
@@ -88,7 +85,7 @@ const showRepoStats = (username, repository) => {
     fetchRepositoryPunchCard(username, repository).then((response) => {
         console.log(response);
     })
-};
+}; */
 
 
 searchButton.addEventListener("click", () => {
