@@ -11,10 +11,17 @@ const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
 
     const api_call = await fetch(url);
 
-    const data = await api_call.json();
-    return { data }
+    const data = await _parseJSON(api_call);
+
+    return {data};
 };
 
+
+const _parseJSON = (response) => {
+    return response.text().then(function (text) {
+        return text ? JSON.parse(text) : {}
+    })
+}
 const showRepoStats = (repoOwner, repoName) => {
     console.log(`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
