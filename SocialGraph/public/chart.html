@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Activity Flow Visuals</title>
+    <title>Repo Days</title>
     <link rel="icon" href="img/favicon.png">
 
     <!-- Bootstrap CSS -->
@@ -16,9 +16,37 @@
     <!-- iconic -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.css">
 </head>
+
 <body>
     <h1>Painting something here!</h1>   
 
+    <!-- jQuery & Bootstrap Javascript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    
+    <!-- D3js -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    
+    <!-- My JavaScript -->
+    <script src="js/repo.js"></script>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBMeEI5gvPyjsFUtyCRrZhnewx-eBY67aU",
+            authDomain: "social-graph-lobodepm.firebaseapp.com",
+            databaseURL: "https://social-graph-lobodepm.firebaseio.com",
+            projectId: "social-graph-lobodepm",
+            storageBucket: "social-graph-lobodepm.appspot.com",
+            messagingSenderId: "1023475694831"
+        };
+        firebase.initializeApp(config);
+    </script>
 </body>
 
 </html>

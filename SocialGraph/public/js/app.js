@@ -59,7 +59,7 @@ const createRepo = (repositoryData) => {
     repo.innerHTML = repoName;
     repo.dataset.owner = repoOwner;
     repo.dataset.name = repoName;
-    repo.href = 'chart.html';
+    repo.href = `chart.html?repoName=${repoName}&repoOwner=${repoOwner}`;
     repo.className += "list-group-item list-group-item-action";
     console.log(`Finding repos not owned by ${loggedUser} -- owner ${repoOwner}`);
     if (repoOwner !== loggedUser) {
