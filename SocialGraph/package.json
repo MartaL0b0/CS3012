@@ -17,7 +17,7 @@
   "author": {
     "name": "Alex Sun",
     "email": "syaningv@gmail.com",
-    "url": "syaning.com"
+    "url": "mailto:syaningv@gmail.com"
   },
   "license": "MIT",
   "bugs": {
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/syaning/d3-punchcard#readme",
   "dependencies": {
+    "c3": "^0.6.8",
     "d3": "^3.5.17"
   },
   "devDependencies": {
