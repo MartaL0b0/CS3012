@@ -6,11 +6,15 @@
 }
 
 .axis text {
-    font-size: 0.875em;
+  font-size: 0.875em;
 }
 
 #arrowButton {
-    display: none;
+  display: none;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Space out content a bit */
