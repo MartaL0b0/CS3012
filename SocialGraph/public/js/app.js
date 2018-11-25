@@ -2,6 +2,7 @@ const userValue = document.querySelector("#username");
 const passwordValue = document.querySelector("#password");
 const searchButton = document.querySelector("#searchButton");
 const reposList = document.querySelector(".list-group");
+const arrowButton = document.querySelector("#arrowButton");
 let loggedUser;
 
 const fetchRepositories = async (username, password) => {
@@ -47,6 +48,7 @@ const showData = () => {
                 reposList.appendChild(repository);
             }
         }
+        arrowButton.style.display = 'block';
     })
    
 };
