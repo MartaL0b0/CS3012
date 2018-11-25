@@ -5,7 +5,7 @@ var repoOwner = url.searchParams.get("repoOwner");
 console.log(`Getting repoName ${repoName} and repoOwner ${repoOwner}`);
 var chart = punchcard({
     target: '#punchcard-bubbles',
-    width: 800
+    width: 600
 });
 
 const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
@@ -25,15 +25,14 @@ const showRepoStats = (repoOwner, repoName) => {
     console.log(`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
         console.log(response);
-        h1(`Showing punchcard for repo ${repoName}`);
+        h1(`Punchcard for repo ${repoName}`);
         chart.render(response.data);
     })
 };
 
 const h1 = (text) => {
-    var h1 = document.createElement('h1');
+    var h1 = document.querySelector('#chartTitle');
     h1.appendChild(document.createTextNode(text));
-    document.body.appendChild(h1);
 }
 
 window.onload = function () {
