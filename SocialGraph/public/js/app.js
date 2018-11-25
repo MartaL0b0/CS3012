@@ -5,6 +5,7 @@ const reposList = document.querySelector(".list-group");
 const arrowButton = document.querySelector("#arrowButton");
 let loggedUser;
 
+
 const fetchRepositories = async (username, password) => {
     const url = "https://api.github.com/user/repos"; 
     const auth = btoa(username + ":" + password);
@@ -61,16 +62,43 @@ const createRepo = (repositoryData) => {
     repo.innerHTML = repoName;
     repo.dataset.owner = repoOwner;
     repo.dataset.name = repoName;
-    repo.href = `chart.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    repo.href = "#";
     repo.className += "list-group-item list-group-item-action";
-    console.log(`Finding repos not owned by ${loggedUser} -- owner ${repoOwner}`);
+    
     if (repoOwner !== loggedUser) {
         repo.innerHTML += ` (Owned by ${repoOwner})`;
     }
+    
+    repo.appendChild(createButtonPunchCard(repoName, repoOwner));
+    repo.appendChild(createButtonDaysChart(repoName, repoOwner));
+    repo.appendChild(createButtonHoursChart(repoName, repoOwner));
 
     return repo;
 };
 
+const createButtonPunchCard = (repoName, repoOwner) => {
+    var button = document.createElement('a');
+    button.innerHTML = 'Punchcard';
+    button.className += "btn btn-info";
+    button.href = `chart.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    return button;
+};
+
+const createButtonDaysChart = (repoName, repoOwner) => {
+    var button = document.createElement('a');
+    button.innerHTML = 'Commits by day';
+    button.className += "btn btn-secondary";
+    button.href = `barChartDays.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    return button;
+};
+
+const createButtonHoursChart = (repoName, repoOwner) => {
+    var button = document.createElement('a');
+    button.innerHTML = 'Commits by hour';
+    button.className += "btn btn-dark";
+    button.href = `barChartHours.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    return button;
+};
 
 searchButton.addEventListener("click", () => {
     showData();
