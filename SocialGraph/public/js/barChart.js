@@ -2,7 +2,6 @@ var url_string = window.location.href;
 var url = new URL(url_string);
 var repoName = url.searchParams.get("repoName");
 var repoOwner = url.searchParams.get("repoOwner");
-
 var chart;
 
 const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
@@ -22,28 +21,36 @@ const showRepoStats = (repoOwner, repoName) => {
     console.log(`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
         console.log(response);
+        console.log(response.data[0]);
+        console.log(typeof response.data[0]);
+        console.log(transformData(response.data));
         h1(`Punchcard for repo ${repoName}`);
         chart = c3.generate({
             bindto: '#chart',
             data: {
-                rows: transformData(response.data)
+                columns: transformData(response.data)
             }
         });
     })
 };
 
-const transformData = (response) => {
-    /*transdorm response to look like this: 
-        [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
-        ]*/
-    transformedData = 
-        [
-            ['commits per hour'],
-            [90], [120], [300]
-        ];
-    
+const transformData = (array) => {
+  
+    transformedData = [[]]; 
+    var counter = 0;
+    var currentDay = 0;
+    transformedData[0][0] = 'Commits per day'; 
+    for (var i = 1; i < array.length; i++){
+        if (array[i][0] === currentDay) {
+            counter += array[i][2];
+        } else {
+            transformedData[0][currentDay + 1] = counter;
+            currentDay++;
+            counter = 0;
+        }
+    }
+
+
     return transformedData;
 };
 
