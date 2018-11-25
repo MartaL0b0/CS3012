@@ -3,6 +3,7 @@ var url = new URL(url_string);
 var repoName = url.searchParams.get("repoName");
 var repoOwner = url.searchParams.get("repoOwner");
 var chart;
+var days = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
 
 const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/stats/punch_card`;
@@ -28,29 +29,38 @@ const showRepoStats = (repoOwner, repoName) => {
         chart = c3.generate({
             bindto: '#chart',
             data: {
+                x: 'x',
                 columns: transformData(response.data)
+            }, 
+            axis: {
+                x: {
+                    type: 'category',
+                    tick: {
+                        multiline: false
+                    },
+                    height: 130
+                }
             }
         });
     })
 };
 
 const transformData = (array) => {
-  
-    transformedData = [[]]; 
+    var transformedData = [
+        ['x','Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'], 
+        ['Commits per day', 0, 0, 0, 0, 0, 0, 0]
+    ]; 
     var counter = 0;
     var currentDay = 0;
-    transformedData[0][0] = 'Commits per day'; 
     for (var i = 1; i < array.length; i++){
         if (array[i][0] === currentDay) {
             counter += array[i][2];
         } else {
-            transformedData[0][currentDay + 1] = counter;
+            transformedData[1][currentDay + 1] = counter;
             currentDay++;
             counter = 0;
         }
     }
-
-
     return transformedData;
 };
 
