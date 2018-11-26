@@ -18,7 +18,6 @@ const _parseJSON = (response) => {
     })
 }
 const showRepoStats = (repoOwner, repoName) => {
-    console.log(`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
         h1(`Commits per hour in repo ${repoName}`);
         chart = c3.generate({
@@ -42,8 +41,6 @@ const showRepoStats = (repoOwner, repoName) => {
 };
 
 const transformData = (array) => {
-    console.log(array);
-    console.log(typeof array[0][2]);
     var transformedData = [
         ['x', '12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a','10a','11a','12p',
         '1p','2p','3p','4p','5p','6p','7p','8p','9p','10','11p']
@@ -51,24 +48,12 @@ const transformData = (array) => {
     var outputCommits = new Array(24);
     outputCommits.fill(0);
 
-    for (var i = 0; i < array.length; i++) { 
-        var counter = outputCommits[array[i][1]];
-        console.log("counter");
-        console.log(counter);
-        if (counter === 0){
-            outputCommits[array[i][1]] = array[i][2];
-        } else{
-            outputCommits[array[i][1]] = array[i][2] + counter;
-        }
-
-        
+    for (var i = 0; i < array.length; i++) {    
+        outputCommits[array[i][1]] += array[i][2];  
     }
-    
+  
     outputCommits.unshift('Commits per hour');
-    console.log(outputCommits);
-    console.log(transformedData);
     transformedData.push(outputCommits);
-    console.log(transformedData);
     return transformedData;
 };
 
