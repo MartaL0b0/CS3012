@@ -28,7 +28,9 @@ const showRepoStats = (repoOwner, repoName) => {
         console.log(response);
         if(_isEmpty(response.data)){
             //error: empty data
-            h1(`Repo ${repoName} is empty`);
+            h1(`Repo ${repoName} is empty`, true);
+        } else if (response.data.message == "Not Found") {
+            h1(`Repo ${repoName} not found`, true);
         } else {
             h1(`Punchcard for repo ${repoName}`);
             chart.render(response.data);
@@ -38,9 +40,13 @@ const showRepoStats = (repoOwner, repoName) => {
     })
 };
 
-const h1 = (text) => {
+const h1 = (text, error) => {
     var h1 = document.querySelector('#chartTitle');
     h1.appendChild(document.createTextNode(text));
+    if (error) {
+        var goBack = document.querySelector('#goBack'); 
+        goBack.style.display = 'block';
+    }
 }
 
 const updateURLS = () => {
@@ -49,6 +55,8 @@ const updateURLS = () => {
     var button2 = document.querySelector('#barchartHour');
     button1.href = `barChartDays.html${buttonsUrl}`;
     button2.href = `barChartHours.html${buttonsUrl}`;
+    button1.style.display = 'inline';
+    button2.style.display = 'inline';
 
 }
 
