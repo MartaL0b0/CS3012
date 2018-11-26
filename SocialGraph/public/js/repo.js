@@ -38,3 +38,36 @@ const h1 = (text) => {
 window.onload = function () {
     showRepoStats(repoOwner, repoName);
 };
+
+
+
+/**
+ * 
+ * repo.appendChild(createButtonPunchCard(repoName, repoOwner));
+repo.appendChild(createButtonDaysChart(repoName, repoOwner));
+repo.appendChild(createButtonHoursChart(repoName, repoOwner));
+
+const createButtonPunchCard = (repoName, repoOwner) => {
+    var button = document.createElement('a');
+    button.innerHTML = '1';
+    button.className += "btn btn-info";
+    button.href = `punchCard.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    return button;
+};
+
+const createButtonDaysChart = (repoName, repoOwner) => {
+    var button = document.createElement('a');
+    button.innerHTML = '2';
+    button.className += "btn btn-secondary";
+    button.href = `barChartDays.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    return button;
+};
+
+const createButtonHoursChart = (repoName, repoOwner) => {
+    var button = document.createElement('a');
+    button.innerHTML = '3';
+    button.className += "btn btn-dark";
+    button.href = `barChartHours.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+    return button;
+};
+ */
