@@ -4,6 +4,7 @@ const searchButton = document.querySelector("#searchButton");
 const reposList = document.querySelector(".list-group");
 const arrowButton = document.querySelector("#arrowButton");
 const warningMessage = document.querySelector("#warningMessage");
+const badCredentials = document.querySelector("#badCredentials");
 let loggedUser;
 
 
@@ -43,13 +44,20 @@ const showData = () => {
            loggedUser = resp.data.login;
        })
        fetchRepositories(userValue.value, passwordValue.value).then((response) => {
-           for (var i in response.data) {
-               if (response.data[i].private !== true) {
-                   var repository = createRepo(response.data[i]);
-                   reposList.appendChild(repository);
+           if (response.data.message == "Bad credentials"){
+               badCredentials.style.display = 'block';
+           } else{
+               badCredentials.style.display = 'none';
+               for (var i in response.data) {
+                   if (response.data[i].private !== true) {
+                       var repository = createRepo(response.data[i]);
+                       reposList.appendChild(repository);
+                   }
                }
+               arrowButton.style.display = 'block';
            }
-           arrowButton.style.display = 'block';
+
+          
        })
    }
 };
