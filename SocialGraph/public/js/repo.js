@@ -1,5 +1,6 @@
 var url_string = window.location.href;
 var url = new URL(url_string);
+console.log(url);
 var repoName = url.searchParams.get("repoName");
 var repoOwner = url.searchParams.get("repoOwner");
 console.log(`Getting repoName ${repoName} and repoOwner ${repoOwner}`);
@@ -27,12 +28,22 @@ const showRepoStats = (repoOwner, repoName) => {
         console.log(response);
         h1(`Punchcard for repo ${repoName}`);
         chart.render(response.data);
+        updateURLS();
     })
 };
 
 const h1 = (text) => {
     var h1 = document.querySelector('#chartTitle');
     h1.appendChild(document.createTextNode(text));
+}
+
+const updateURLS = () => {
+    var buttonsUrl = url.search;
+    var button1 = document.querySelector('#barchartDay');
+    var button2 = document.querySelector('#barchartHour');
+    button1.href = `barChartDays.html${buttonsUrl}`;
+    button2.href = `barChartHours.html${buttonsUrl}`;
+
 }
 
 window.onload = function () {
