@@ -37,7 +37,7 @@ const showRepoStats = (repoOwner, repoName) => {
                 }
             }
         });
-        updateURLS("PunchCard", "barchartDay");
+        updateURLS();
     })
 };
 
@@ -64,11 +64,13 @@ const h1 = (text) => {
     h1.appendChild(document.createTextNode(text));
 }
 
-const updateURLS = (but1, but2) =>{
-    var button1 = document.body.querySelector('#PunchCard');
-    button1.href = `punchCard.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    var button2 = document.querySelector('#barchartDay');
-    button2.href = `barChartDays.html?repoName=${repoName}&repoOwner=${repoOwner}`;
+const updateURLS = () => {
+    var buttonsUrl = url.search;
+    var button1 = document.querySelector('#punchCard');
+    var button2 = document.querySelector('#barChartDays');
+    button1.href = `punchCard.html${buttonsUrl}`;
+    button2.href = `barChartDays.html${buttonsUrl}`;
+
 }
 
 window.onload = function () {
