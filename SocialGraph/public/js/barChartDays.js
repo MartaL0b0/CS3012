@@ -41,6 +41,7 @@ const showRepoStats = (repoOwner, repoName) => {
                 }
             }
         });
+        updateURLS();
     })
 };
 
@@ -67,6 +68,15 @@ const transformData = (array) => {
 const h1 = (text) => {
     var h1 = document.querySelector('#chartTitle');
     h1.appendChild(document.createTextNode(text));
+}
+
+const updateURLS = () => {
+    var buttonsUrl = url.search;
+    var button1 = document.querySelector('#punchCard');
+    var button2 = document.querySelector('#barChartHour');
+    button1.href = `punchCard.html${buttonsUrl}`;
+    button2.href = `barChartHours.html${buttonsUrl}`;
+
 }
 
 window.onload = function () {
