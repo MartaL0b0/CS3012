@@ -1,9 +1,9 @@
 var url_string = window.location.href;
 var url = new URL(url_string);
-console.log(url);
+(url);
 var repoName = url.searchParams.get("repoName");
 var repoOwner = url.searchParams.get("repoOwner");
-console.log(`Getting repoName ${repoName} and repoOwner ${repoOwner}`);
+(`Getting repoName ${repoName} and repoOwner ${repoOwner}`);
 var chart = punchcard({
     target: '#punchcard-bubbles',
     width: 600
@@ -23,12 +23,18 @@ const _parseJSON = (response) => {
     })
 }
 const showRepoStats = (repoOwner, repoName) => {
-    console.log(`Querying user ${repoOwner} and repo ${repoName}`);
+    (`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
         console.log(response);
-        h1(`Punchcard for repo ${repoName}`);
-        chart.render(response.data);
-        updateURLS();
+        if(_isEmpty(response.data)){
+            //error: empty data
+            h1(`Repo ${repoName} is empty`);
+        } else {
+            h1(`Punchcard for repo ${repoName}`);
+            chart.render(response.data);
+            updateURLS();
+        }
+        
     })
 };
 
@@ -50,35 +56,11 @@ window.onload = function () {
     showRepoStats(repoOwner, repoName);
 };
 
+function _isEmpty(obj) {
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop))
+            return false;
+    }
 
-
-/**
- * 
- * repo.appendChild(createButtonPunchCard(repoName, repoOwner));
-repo.appendChild(createButtonDaysChart(repoName, repoOwner));
-repo.appendChild(createButtonHoursChart(repoName, repoOwner));
-
-const createButtonPunchCard = (repoName, repoOwner) => {
-    var button = document.createElement('a');
-    button.innerHTML = '1';
-    button.className += "btn btn-info";
-    button.href = `punchCard.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    return button;
-};
-
-const createButtonDaysChart = (repoName, repoOwner) => {
-    var button = document.createElement('a');
-    button.innerHTML = '2';
-    button.className += "btn btn-secondary";
-    button.href = `barChartDays.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    return button;
-};
-
-const createButtonHoursChart = (repoName, repoOwner) => {
-    var button = document.createElement('a');
-    button.innerHTML = '3';
-    button.className += "btn btn-dark";
-    button.href = `barChartHours.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    return button;
-};
- */
+    return JSON.stringify(obj) === JSON.stringify({});
+}
