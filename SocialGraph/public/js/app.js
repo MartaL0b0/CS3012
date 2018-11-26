@@ -62,43 +62,18 @@ const createRepo = (repositoryData) => {
     repo.innerHTML = repoName;
     repo.dataset.owner = repoOwner;
     repo.dataset.name = repoName;
-    repo.href = "#";
+    repo.href = `punchCard.html?repoName=${repoName}&repoOwner=${repoOwner}`;
     repo.className += "list-group-item list-group-item-action";
     
     if (repoOwner !== loggedUser) {
         repo.innerHTML += ` (Owned by ${repoOwner})`;
     }
 
-    repo.appendChild(createButtonPunchCard(repoName, repoOwner));
-    repo.appendChild(createButtonDaysChart(repoName, repoOwner));
-    repo.appendChild(createButtonHoursChart(repoName, repoOwner));
-
+    
     return repo;
 };
 
-const createButtonPunchCard = (repoName, repoOwner) => {
-    var button = document.createElement('a');
-    button.innerHTML = '1';
-    button.className += "btn btn-info";
-    button.href = `punchCard.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    return button;
-};
 
-const createButtonDaysChart = (repoName, repoOwner) => {
-    var button = document.createElement('a');
-    button.innerHTML = '2';
-    button.className += "btn btn-secondary";
-    button.href = `barChartDays.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    return button;
-};
-
-const createButtonHoursChart = (repoName, repoOwner) => {
-    var button = document.createElement('a');
-    button.innerHTML = '3';
-    button.className += "btn btn-dark";
-    button.href = `barChartHours.html?repoName=${repoName}&repoOwner=${repoOwner}`;
-    return button;
-};
 
 searchButton.addEventListener("click", () => {
     showData();
