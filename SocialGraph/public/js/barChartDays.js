@@ -3,7 +3,6 @@ var url = new URL(url_string);
 var repoName = url.searchParams.get("repoName");
 var repoOwner = url.searchParams.get("repoOwner");
 var chart;
-var days = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
 
 const fetchRepositoryPunchCard = async (repoOwner, repoName) => {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/stats/punch_card`;
@@ -25,7 +24,7 @@ const showRepoStats = (repoOwner, repoName) => {
         console.log(response.data[0]);
         console.log(typeof response.data[0]);
         console.log(transformData(response.data));
-        h1(`Punchcard for repo ${repoName}`);
+        h1(`Commits per day in repo ${repoName}`);
         chart = c3.generate({
             bindto: '#chart',
             data: {
