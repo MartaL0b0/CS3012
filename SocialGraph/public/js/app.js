@@ -3,6 +3,7 @@ const passwordValue = document.querySelector("#password");
 const searchButton = document.querySelector("#searchButton");
 const reposList = document.querySelector(".list-group");
 const arrowButton = document.querySelector("#arrowButton");
+const warningMessage = document.querySelector("#warningMessage");
 let loggedUser;
 
 
@@ -37,21 +38,20 @@ const fetchUserInfo = async (username, password) => {
 };
 
 const showData = () => {
-    console.log(`Querying user ${userValue.value}`);
-    fetchUserInfo(userValue.value, passwordValue.value).then((resp) => {
-        loggedUser = resp.data.login;
-    })
-    fetchRepositories(userValue.value, passwordValue.value).then((response) => {
-        console.log(response);
-        for (var i in response.data) {
-            if (response.data[i].private !== true) {
-                var repository = createRepo(response.data[i]);
-                reposList.appendChild(repository);
-            }
-        }
-        arrowButton.style.display = 'block';
-    })
-   
+   if (validateParameters()){
+       fetchUserInfo(userValue.value, passwordValue.value).then((resp) => {
+           loggedUser = resp.data.login;
+       })
+       fetchRepositories(userValue.value, passwordValue.value).then((response) => {
+           for (var i in response.data) {
+               if (response.data[i].private !== true) {
+                   var repository = createRepo(response.data[i]);
+                   reposList.appendChild(repository);
+               }
+           }
+           arrowButton.style.display = 'block';
+       })
+   }
 };
 
 const createRepo = (repositoryData) => {
@@ -69,11 +69,18 @@ const createRepo = (repositoryData) => {
         repo.innerHTML += ` (Owned by ${repoOwner})`;
     }
 
-    
     return repo;
 };
 
-
+const validateParameters = () =>{
+    if (userValue.value == "" || passwordValue.value == ""){
+        warningMessage.style.display = 'block';
+        return false;
+    } else {
+        warningMessage.style.display = 'none';
+        return true;
+    }
+}
 
 searchButton.addEventListener("click", () => {
     showData();
