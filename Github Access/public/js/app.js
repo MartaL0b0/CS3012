@@ -26,20 +26,35 @@ const fetchUsers = async (username, password) => {
 };
 
 const showData = () => {
-    console.log(`Querying user ${userValue.value}`);
-    fetchUsers(userValue.value, passwordValue.value).then((res) => {
-        console.log(res);
+    if (validateParameters()) {
+        fetchUsers(userValue.value, passwordValue.value).then((response) => {
+            if (response.data.message == "Bad credentials") {
+                badCredentials.style.display = 'block';
+            } else {
+                badCredentials.style.display = 'none';
+                nameContainer.innerHTML = `Name: <span class="main__profile-value">${response.data.name}</span>`;
+                unContainer.innerHTML = `Username: <span class="main__profile-value">${response.data.login}</span>`;
 
-        nameContainer.innerHTML = `Name: <span class="main__profile-value">${res.data.name}</span>`;
-        unContainer.innerHTML = `Username: <span class="main__profile-value">${res.data.login}</span>`;
+                reposContainer.innerHTML = `Repositories: <span class="main__profile-value">${response.data.public_repos}</span>`;
 
-        reposContainer.innerHTML = `Repositories: <span class="main__profile-value">${res.data.public_repos}</span>`;
+                urlContainer.innerHTML = `URL: <span class="main__profile-value">${response.data.html_url}</span>`;
 
-        urlContainer.innerHTML = `URL: <span class="main__profile-value">${res.data.html_url}</span>`;
-
-        avatarContainer.innerHTML = `<img src="${res.data.avatar_url}" alt="Smiley face" height="150">`;
-    })
+                avatarContainer.innerHTML = `<img src="${response.data.avatar_url}" alt="Smiley face" height="150">`;
+            }
+            
+        })
+    }
 };
+
+const validateParameters = () => {
+    if (userValue.value == "" || passwordValue.value == "") {
+        warningMessage.style.display = 'block';
+        return false;
+    } else {
+        warningMessage.style.display = 'none';
+        return true;
+    }
+}
 
 searchButton.addEventListener("click", () => {
     showData();

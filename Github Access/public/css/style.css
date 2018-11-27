@@ -152,6 +152,10 @@ table {
 td, th {
   padding: 0; }
 
+.text-danger {
+  display: none;
+}
+
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 @media print {
   *, :after, :before {
@@ -1016,7 +1020,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #fff; }
+  background-color: #1a1a1a; }
 
 button, input, select, textarea {
   font-family: inherit;
