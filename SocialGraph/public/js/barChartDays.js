@@ -18,12 +18,7 @@ const _parseJSON = (response) => {
     })
 }
 const showRepoStats = (repoOwner, repoName) => {
-    console.log(`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
-        console.log(response);
-        console.log(response.data[0]);
-        console.log(typeof response.data[0]);
-        console.log(transformData(response.data));
         h1(`Commits per day in repo ${repoName}`);
         chart = c3.generate({
             bindto: '#chart',

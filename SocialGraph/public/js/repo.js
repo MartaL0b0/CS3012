@@ -23,11 +23,8 @@ const _parseJSON = (response) => {
     })
 }
 const showRepoStats = (repoOwner, repoName) => {
-    (`Querying user ${repoOwner} and repo ${repoName}`);
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
-        console.log(response);
         if(_isEmpty(response.data)){
-            //error: empty data
             h1(`Repo ${repoName} is empty`, true);
         } else if (response.data.message == "Not Found") {
             h1(`Repo ${repoName} not found`, true);
@@ -36,7 +33,6 @@ const showRepoStats = (repoOwner, repoName) => {
             chart.render(response.data);
             updateURLS();
         }
-        
     })
 };
 
