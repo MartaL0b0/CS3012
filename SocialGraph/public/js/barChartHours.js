@@ -19,25 +19,34 @@ const _parseJSON = (response) => {
 }
 const showRepoStats = (repoOwner, repoName) => {
     fetchRepositoryPunchCard(repoOwner, repoName).then((response) => {
-        h1(`Commits per hour in repo ${repoName}`);
-        chart = c3.generate({
-            bindto: '#chart',
-            data: {
-                x: 'x',
-                columns: transformData(response.data),
-                type: 'bar'
-            },
-            axis: {
-                x: {
-                    type: 'category',
-                    tick: {
-                        multiline: false
-                    },
-                    height: 130
+        if (_isEmpty(response.data)) {
+            h1(`Repo ${repoName} is empty`, true);
+        } else if (response.data.message == "Not Found") {
+            h1(`Repo ${repoName} not found`, true);
+        } else {
+            h1(`Commits per hour in repo ${repoName}`);
+            chart = c3.generate({
+                bindto: '#chart',
+                data: {
+                    x: 'x',
+                    columns: transformData(response.data),
+                    type: 'bar'
+                },
+                axis: {
+                    x: {
+                        type: 'category',
+                        tick: {
+                            multiline: false
+                        },
+                        height: 130
+                    }
                 }
-            }
-        });
-        updateURLS();
+            });
+            updateURLS();
+        }
+       
+       
+        
     })
 };
 
@@ -59,9 +68,13 @@ const transformData = (array) => {
 };
 
 
-const h1 = (text) => {
+const h1 = (text, error) => {
     var h1 = document.querySelector('#chartTitle');
     h1.appendChild(document.createTextNode(text));
+    if (error) {
+        var goBack = document.querySelector('#goBack');
+        goBack.style.display = 'block';
+    }
 }
 
 const updateURLS = () => {
@@ -70,8 +83,20 @@ const updateURLS = () => {
     var button2 = document.querySelector('#barChartDays');
     button1.href = `punchCard.html${buttonsUrl}`;
     button2.href = `barChartDays.html${buttonsUrl}`;
+    button1.style.display = 'inline';
+    button2.style.display = 'inline';
 
 }
+
+const _isEmpty = (obj) => {
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return JSON.stringify(obj) === JSON.stringify({});
+}
+
 
 window.onload = function () {
     showRepoStats(repoOwner, repoName);

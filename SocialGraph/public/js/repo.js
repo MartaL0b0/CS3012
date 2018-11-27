@@ -56,11 +56,7 @@ const updateURLS = () => {
 
 }
 
-window.onload = function () {
-    showRepoStats(repoOwner, repoName);
-};
-
-function _isEmpty(obj) {
+const _isEmpty = (obj) => {
     for (var prop in obj) {
         if (obj.hasOwnProperty(prop))
             return false;
@@ -68,3 +64,7 @@ function _isEmpty(obj) {
 
     return JSON.stringify(obj) === JSON.stringify({});
 }
+
+window.onload = function () {
+    showRepoStats(repoOwner, repoName);
+};
