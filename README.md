@@ -39,29 +39,48 @@ To access it, browse to [https://github-access-lobodepm.firebaseapp.com/](https:
 ## Sixth assignment: Social Graph
 For this last assignment, I display the information about commits stats from a particular repo, by fetching the *punchcard* information from the Github API. This is managed through a fully functional Client Web API deployed here: [https://social-graph-lobodepm.firebaseapp.com/](https://social-graph-lobodepm.firebaseapp.com/)
 
-The program flow is as follows:
-* User logs in using Github credentials (either email or username) and password
-![User login](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "Login")
-  * Handled errors for missing credentials or incorrect username / password.
-  ![missing parameter](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "missing parameter")
-  ![bad credentials](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "bad credentials")
-* User information and repositories are retrieved after logged in: `GET user/` and `GET user/repos` 
-* A list of repositories is displayed, distinguishing between those owned by the user herself, or by a third one (user or organization).
-![Repo List](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "Repo List")
-* When clicked in any repository, a new view is loaded with a **punchcard chart**. 
-![Punchcard](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "Punchcard")
-  * Handled errors for empty repository (no commits) or not found. 
-  ![empty repo](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "empty repo")
-  ![not found repo](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "not found repo")
-* In the top right corner, user can navigate and change between **commits per day** and **commits per hour**. 
-![commits per day](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "commits per day")
-![commits per hour](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "commits per hour")
+##### The program flow is as follows:
+> User logs in using Github credentials (either email or username) and password
 
-* At the bottom of the page, a bit of information about the chart and its utility in software development. In case a new repository is wanted to be displayed, there is a button to go back to the main page.
-![explanaition + new search](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "explanaition + new search")
+![User login](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/user%20login.png "Login")
 
+  > Handled errors for missing credentials or incorrect username / password.
+  
+  ![missing parameter](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/missing%20parameter.png "missing parameter")
+  
+  ![bad credentials](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/bad%20credentials.png "bad credentials")
+  
+> User information and repositories are retrieved after logged in: 
+```
+GET user/
+GET user/repos
+``` 
 
+> A list of repositories is displayed, distinguishing between those owned by the user herself, or by a third one (user or organization).
 
+![Repo List](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/repo%20list.png "Repo List")
+
+> When clicked in any repository, a new view is loaded with a **punchcard chart**. 
+
+![Punchcard](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/punchcard.png "Punchcard")
+
+  > Handled errors for empty repository (no commits) or not found. 
+  
+  ![empty repo](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/empty%20repo.png "empty repo")
+  
+  ![not found repo](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/not%20found.png "not found repo")
+  
+> In the top right corner, user can navigate and change between **commits per day** and **commits per hour**. 
+
+![commits per day](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/commits%20per%20day.png "commits per day")
+
+![commits per hour](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/commits%20per%20hour.png "commits per hour")
+
+> At the bottom of the page, a bit of information about the chart and its utility in software development. In case the user wants to display a new chart from a different repository, there is a button to that redirects to the main page, for a new search. 
+
+![explanaition + new search](https://github.com/MartaL0b0/CS3012/blob/master/SocialGraph/public/img/screenshots/explanaition%20%2B%20new%20search.png "explanaition + new search")
+
+> Source code (Github Repository) can be accessed both in the main page and in the footer. 
 
 
 
